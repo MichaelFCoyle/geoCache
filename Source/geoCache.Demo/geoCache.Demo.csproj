@@ -92,10 +92,6 @@
     <Content Include="geoCache.Unity.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\geoCache.TMS\geoCache.TMS.csproj">
-      <Project>{99581b91-4606-4834-8632-84fa5942abbd}</Project>
-      <Name>geoCache.TMS</Name>
-    </ProjectReference>
     <ProjectReference Include="..\geoCache\geoCache.csproj">
       <Project>{BC7E4E99-6B7F-4B8F-A00D-4B4EB0F1B48C}</Project>
       <Name>geoCache</Name>

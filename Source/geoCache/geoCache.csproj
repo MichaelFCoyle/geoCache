@@ -84,6 +84,7 @@
     <Compile Include="CacheHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TileRenderer.cs" />
+    <Compile Include="TMSHandler.cs" />
     <Compile Include="UnityAddInExtensionLoader.cs" />
   </ItemGroup>
   <ItemGroup>

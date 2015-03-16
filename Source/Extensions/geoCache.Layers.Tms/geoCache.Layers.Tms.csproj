@@ -7,8 +7,8 @@
     <ProjectGuid>{99581B91-4606-4834-8632-84FA5942ABBD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GeoCache.TMS</RootNamespace>
-    <AssemblyName>GeoCache.TMS</AssemblyName>
+    <RootNamespace>GeoCache.Layers.Tms</RootNamespace>
+    <AssemblyName>GeoCache.Layers.Tms</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\geoCache.Demo\bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -41,8 +41,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TMSHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TmsService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\geoCache.Core\geoCache.Core.csproj">
+      <Project>{9b7b5cd9-374b-4b87-a298-604b6fd7f1ca}</Project>
+      <Name>geoCache.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\geoCache.Extensions.Base\geoCache.Extensions.Base.csproj">
+      <Project>{fdcf9378-d263-4e42-9ba5-b27f05a64623}</Project>
+      <Name>geoCache.Extensions.Base</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

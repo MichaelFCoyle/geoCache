@@ -79,6 +79,7 @@ namespace GeoCache
             //do more cache checking here: SRS, width, height, layers 
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
+
             byte[] image = null;
 
             if (!force)

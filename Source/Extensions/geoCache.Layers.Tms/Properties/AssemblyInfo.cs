@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("GeoCache.TMS")]
+[assembly: AssemblyTitle("GeoCache.Layers.Tms")]
 [assembly: AssemblyDescription("Tile Map Service")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Blue Toque Software")]
