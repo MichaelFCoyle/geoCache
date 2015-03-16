@@ -1,0 +1,14 @@
+﻿<Addin id="geoCache.Layers.Wms.ImageResponseValidators" version="1.0">
+	<Runtime>
+		<Import assembly="geoCache.Layers.Wms.ImageResponseValidators.dll" />
+	</Runtime>
+
+	<Dependencies>
+		<!--<Addin id="geoCache" version="1.0"/>-->
+		<Addin id="geoCache.Layers.Wms" version="1.0"/>
+	</Dependencies>
+
+	<Extension path="/geoCache/Layers/Wms/ResponseValidator">
+		<Command type ="geoCache.Layers.Wms.ImageResponseValidators.ImageResponseValidator" id="ImageResponseValidator"/>
+	</Extension>
+</Addin>

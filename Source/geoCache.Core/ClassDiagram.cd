@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="GeoCache.Core.BBox" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="5.5" Y="1.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <NestedTypes>
+      <Class Name="GeoCache.Core.BBox.BBoxConverter" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>BBox.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>MAAAAAAwBAAAAAAEAAAAAEAAAAAAAAAAAABAAAAQAAA=</HashCode>
+      <FileName>BBox.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="GeoCache.Core.Resolutions" Collapsed="true">
+    <Position X="5.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Resolutions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeoCache.Core.Resolver">
+    <Position X="0.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAACEAAAAAADAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Resolver.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="GeoCache.Core.Cell" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="8" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAQAAAAEgAAAAAAAAAAAAIAAAAAAAAAAYiE=</HashCode>
+      <FileName>Cell.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Struct>
+  <Interface Name="GeoCache.Core.IBBox" Collapsed="true">
+    <Position X="5.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>MAAAAAAwBAAAAAAAAAAAAEAAAAAAAAAAAABAAAAQAAA=</HashCode>
+      <FileName>IBBox.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="GeoCache.Core.ICache">
+    <Position X="0.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAQAAAAAAAABABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ICache.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="GeoCache.Core.ILayer">
+    <Position X="2.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAARAAAAAAAgAEAAAAAAAQAAgoAAQAAADAQAAAAAAA=</HashCode>
+      <FileName>ILayer.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="BBox" />
+      <Property Name="ExtentType" />
+      <Property Name="Resolutions" />
+    </ShowAsAssociation>
+  </Interface>
+  <Interface Name="GeoCache.Core.ILayerContainer">
+    <Position X="2.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>ILayerContainer.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Layers" />
+    </ShowAsCollectionAssociation>
+  </Interface>
+  <Interface Name="GeoCache.Core.IService">
+    <Position X="0.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="GeoCache.Core.ITile">
+    <Position X="8" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAAAgAAAAABAAAAAAAAAAAAEAAAAAAAAYgE=</HashCode>
+      <FileName>ITile.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Bounds" />
+      <Property Name="Cell" />
+      <Property Name="Layer" />
+    </ShowAsAssociation>
+  </Interface>
+  <Interface Name="GeoCache.Core.ITileRenderer">
+    <Position X="0.5" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ITileRenderer.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="GeoCache.Core.IResolver">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IResolver.cs</FileName>
+      <NewMemberFileName>Resolver.cs</NewMemberFileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="GeoCache.Core.ExtentType" Collapsed="true">
+    <Position X="5.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ExtentType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
