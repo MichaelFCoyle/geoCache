@@ -42,4 +42,25 @@ Network Trash Folder
 Temporary Items
 .apdisk
 Assemblies/Debug/GeoCache.Core.dll
-Source/geoCache/bin/Debug/GeoCache.dll.CodeAnalysisLog.xml
+Source/geoCache/bin/Debug/*
+Source/Assemblies/Debug/*
+*/obj/Debug/*
+*.cache
+Source/Extensions/geoCache.Configuration/obj/*
+Source/Extensions/geoCache.Extensions.Base/obj/*
+Source/Extensions/geoCache.Configuration.Test/obj/*
+Source/Extensions/geoCache.Layers.Wms.ImageResponseValidators/obj/*
+Source/Extensions/geoCache.Layers.Wms/obj/*
+Source/geoCache.Demo/bin/*
+Source/geoCache.Demo/obj/*
+Source/geoCache.Web/bin/*
+Source/geoCache.TMS/bin/*
+Source/geoCache.Core/obj/*
+Source/geoCache.Core/bin/*
+*.suo
+Source/geoCache.vsmdi
+Source/geoCache.TMS/obj/*
+Source/geoCache.Web/obj/*
+Source/Extensions/geoCache.Services.Wms/obj/*
+Assemblies/Debug/*
+Source/geoCache/obj/*
