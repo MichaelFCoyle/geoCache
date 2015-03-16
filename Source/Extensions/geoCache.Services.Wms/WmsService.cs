@@ -20,17 +20,17 @@ using GeoCache.Core.Web;
 
 namespace GeoCache.Services.Wms
 {
-	class WmsService : ServiceRequest, IService
-	{
-		public WmsService() { }
+    class WmsService : ServiceRequest, IService
+    {
+        public WmsService() { }
 
-		public WmsService(ITileRenderer tileRenderer, ILayerContainer layerContainer)
-			: base(tileRenderer, layerContainer)
-		{
-		}
+        public WmsService(ITileRenderer tileRenderer, ILayerContainer layerContainer)
+            : base(tileRenderer, layerContainer)
+        {
+        }
 
-		#region python
-		/*
+        #region python
+        /*
 		def parse (self, fields, path, host):
 			param = {}
 			for key in ['bbox', 'layers', 'request', 'version']: 
@@ -45,31 +45,31 @@ namespace GeoCache.Services.Wms
 			else:
 				return self.getMap(param)
 		 */
-		#endregion
-		public void ProcessRequest(IHttpContext context)
-		{
-			var requestParams = context.Request.Params;
-			//NameValueCollection requestParams, string pathInfo, string host
-			if ("GetCapabilities".Equals(requestParams["request"], StringComparison.OrdinalIgnoreCase))
-			{
-				//TODO: Get host and pathInfo
-				var host = "dummy-host";
-				var pathInfo = "dummy-path-info";
-				var capabilities = GetCapabilities(host + pathInfo);
-				context.Response.ContentType = capabilities.Format;
-				context.Response.Write(capabilities.Data);
-				return;
-			}
+        #endregion
+        public void ProcessRequest(IHttpContext context)
+        {
+            var requestParams = context.Request.Params;
+            //NameValueCollection requestParams, string pathInfo, string host
+            if ("GetCapabilities".Equals(requestParams["request"], StringComparison.OrdinalIgnoreCase))
+            {
+                //TODO: Get host and pathInfo
+                var host = "dummy-host";
+                var pathInfo = "dummy-path-info";
+                var capabilities = GetCapabilities(host + pathInfo);
+                context.Response.ContentType = capabilities.Format;
+                context.Response.Write(capabilities.Data);
+                return;
+            }
 
-			var forceParam = requestParams["force"];
-			bool force = !string.IsNullOrEmpty(forceParam) && forceParam == "true";
+            var forceParam = requestParams["force"];
+            bool force = !string.IsNullOrEmpty(forceParam) && forceParam == "true";
 
-			TileRenderer.RenderTile(context.Response, GetMap(requestParams), force);
-			//return this.GetMap(requestParams);
-		}
+            TileRenderer.RenderTile(context.Response, GetMap(requestParams), force);
+            //return this.GetMap(requestParams);
+        }
 
-		#region python
-		/*
+        #region python
+        /*
     def getMap (self, param):
         bbox  = map(float, param["bbox"].split(","))
         layer = self.getLayer(param["layers"])
@@ -80,70 +80,70 @@ namespace GeoCache.Services.Wms
                 % (layer.name, bbox))
         return tile
 		 */
-		#endregion
-		ITile GetMap(NameValueCollection param)
-		{
-			var bbox = new BBox(param["bbox"]);
-			var layer = GetLayer(param["layers"]);
-			var tile = layer.GetTile(bbox);
-			if (tile == null)
-				throw new Exception(string.Format("couldn't calculate tile index for layer {0} from ({1})", layer.Name, bbox));
-			return tile;
-		}
-		#region python
-		/*
+        #endregion
+        ITile GetMap(NameValueCollection param)
+        {
+            var bbox = new BBox(param["bbox"]);
+            var layer = GetLayer(param["layers"]);
+            var tile = layer.GetTile(bbox);
+            if (tile == null)
+                throw new Exception(string.Format("couldn't calculate tile index for layer {0} from ({1})", layer.Name, bbox));
+            return tile;
+        }
+        #region python
+        /*
 		 */
-		#endregion
-		internal static string GetHost(string host)
-		{
-			if (string.IsNullOrEmpty(host))
-				throw new ArgumentNullException("host");
+        #endregion
+        internal static string GetHost(string host)
+        {
+            if (string.IsNullOrEmpty(host))
+                throw new ArgumentNullException("host");
 
-			if(!host.EndsWith("&") && !host.EndsWith("?"))
-				return host;
+            if (!host.EndsWith("&") && !host.EndsWith("?"))
+                return host;
 
-			if(host.Contains("?"))
-				return host + "&";
-			return host + "?";
+            if (host.Contains("?"))
+                return host + "&";
+            return host + "?";
 
-			#region Original python-code
-			//if host[-1] not in "?&":
-			//   if "?" in host:
-			//       host += "&"
-			//   else:
-			//       host += "?"
-			#endregion
-		}
+            #region Original python-code
+            //if host[-1] not in "?&":
+            //   if "?" in host:
+            //       host += "&"
+            //   else:
+            //       host += "?"
+            #endregion
+        }
 
-		#region python
-		/*
+        #region python
+        /*
 		 */
-		#endregion
-		internal Capabilities GetCapabilities(string host)
-		{
-			host = GetHost(host);
+        #endregion
+        internal Capabilities GetCapabilities(string host)
+        {
+            host = GetHost(host);
 
-			var formats = new List<string>();
-			foreach (var layer in LayerContainer.Layers)
-			{
-				var format = layer.Value.Format;
-				if (!formats.Contains(format))
-					formats.Add(format);
-			}
-			//base.Response.ContentType = "text/xml";
-			return GetCapabilities(host, Description, formats);
-		}
+            var formats = new List<string>();
+            foreach (var layer in LayerContainer.Layers)
+            {
+                var format = layer.Value.Format;
+                if (!formats.Contains(format))
+                    formats.Add(format);
+            }
+            //base.Response.ContentType = "text/xml";
+            return GetCapabilities(host, Description, formats);
+        }
 
-		public string Description { get; set; }
+        public string Description { get; set; }
 
-		#region python
-		/*
+        #region python
+        /*
 		 */
-		#endregion
-		internal static Capabilities GetCapabilities(string host, string description, IEnumerable<string> formats)
-		{
-			var xml = string.Format(
-			@"<?xml version='1.0' encoding=""ISO-8859-1"" standalone=""no"" ?>
+        #endregion
+        internal static Capabilities GetCapabilities(string host, string description, IEnumerable<string> formats)
+        {
+            var xml = string.Format(
+            @"<?xml version='1.0' encoding=""ISO-8859-1"" standalone=""no"" ?>
 			<!DOCTYPE WMT_MS_Capabilities SYSTEM 
 				""http://schemas.opengeospatial.net/wms/1.1.1/WMS_MS_Capabilities.dtd"" [
 				  <!ELEMENT VendorSpecificCapabilities (TileSet*) >
@@ -163,7 +163,7 @@ namespace GeoCache.Services.Wms
 			  </Service>
 			", description, host);
 
-			xml += string.Format(@"
+            xml += string.Format(@"
 			  <Capability>
 				<Request>
 				  <GetCapabilities>
@@ -175,14 +175,14 @@ namespace GeoCache.Services.Wms
 					</DCPType>
 				  </GetCapabilities>", host);
 
-			xml += @"
+            xml += @"
               <GetMap>";
-			
-			foreach (var format in formats)
-			{
-				xml += string.Format("\n<Format>{0}</Format>\n", format);
-			}
-			xml += string.Format(@"
+
+            foreach (var format in formats)
+            {
+                xml += string.Format("\n<Format>{0}</Format>\n", format);
+            }
+            xml += string.Format(@"
                 <DCPType>
                   <HTTP>
                     <Get><OnlineResource xmlns:xlink=""http://www.w3.org/1999/xlink"" xlink:href=""{0}""/></Get>
@@ -190,59 +190,59 @@ namespace GeoCache.Services.Wms
                 </DCPType>
               </GetMap>
             </Request>""", host);
-			
-			xml += @"
+
+            xml += @"
             <Exception><Format>text/plain</Format></Exception>";
-			/*
+            /*
             xml += "<VendorSpecificCapabilities>";
 			 
-			for name, layer in self.service.layers.items():
-				resolutions = " ".join(["%.9f" % r for r in layer.resolutions])
-				xml += """
-				  <TileSet>
-					<SRS>%s</SRS>
-					<BoundingBox SRS="%s" minx="%f" miny="%f"
-										  maxx="%f" maxy="%f" />
-					<Resolutions>%s</Resolutions>
-					<Width>%d</Width>
-					<Height>%d</Height>
-					<Format>%s</Format>
-					<Layers>%s</Layers>
-					<Styles></Styles>
-				  </TileSet>""" % (
-					layer.srs, layer.srs, layer.bbox[0], layer.bbox[1],
-					layer.bbox[2], layer.bbox[3], resolutions, layer.size[0],
-					layer.size[1], layer.format(), name )
+            for name, layer in self.service.layers.items():
+                resolutions = " ".join(["%.9f" % r for r in layer.resolutions])
+                xml += """
+                  <TileSet>
+                    <SRS>%s</SRS>
+                    <BoundingBox SRS="%s" minx="%f" miny="%f"
+                                          maxx="%f" maxy="%f" />
+                    <Resolutions>%s</Resolutions>
+                    <Width>%d</Width>
+                    <Height>%d</Height>
+                    <Format>%s</Format>
+                    <Layers>%s</Layers>
+                    <Styles></Styles>
+                  </TileSet>""" % (
+                    layer.srs, layer.srs, layer.bbox[0], layer.bbox[1],
+                    layer.bbox[2], layer.bbox[3], resolutions, layer.size[0],
+                    layer.size[1], layer.format(), name )
 			 
-			xml += "</VendorSpecificCapabilities>"
-			*/
-			
-			xml += @"
+            xml += "</VendorSpecificCapabilities>"
+            */
+
+            xml += @"
 				<UserDefinedSymbolization SupportSLD=""0"" UserLayer=""0""
                                       UserStyle=""0"" RemoteWFS=""0""/>";
-			/*
-			xml += @"
-			<Layer>";
-			for name, layer in self.service.layers.items():
-				xml += """
-				<Layer queryable="0" opaque="0" cascaded="1">
-				  <Name>%s</Name>
-				  <Title>%s</Title>
-				  <SRS>%s</SRS>
-				  <BoundingBox srs="%s" minx="%f" miny="%f"
-										maxx="%f" maxy="%f" />
-				</Layer>""" % (
-					name, layer.name, layer.srs, layer.srs,
-					layer.bbox[0], layer.bbox[1], layer.bbox[2], layer.bbox[3])
+            /*
+            xml += @"
+            <Layer>";
+            for name, layer in self.service.layers.items():
+                xml += """
+                <Layer queryable="0" opaque="0" cascaded="1">
+                  <Name>%s</Name>
+                  <Title>%s</Title>
+                  <SRS>%s</SRS>
+                  <BoundingBox srs="%s" minx="%f" miny="%f"
+                                        maxx="%f" maxy="%f" />
+                </Layer>""" % (
+                    name, layer.name, layer.srs, layer.srs,
+                    layer.bbox[0], layer.bbox[1], layer.bbox[2], layer.bbox[3])
 
-			xml += @"
-			</Layer>";
-			 */
-			xml += @"
+            xml += @"
+            </Layer>";
+             */
+            xml += @"
 			  </Capability>
 			</WMT_MS_Capabilities>";
-			
-			return new Capabilities("text/xml", xml);
-		}
-	}
+
+            return new Capabilities("text/xml", xml);
+        }
+    }
 }

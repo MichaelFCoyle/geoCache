@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="geoCache.Demo._Default" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="GeoCache.Demo._Default" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -59,7 +59,7 @@
         map.addLayer(osmLayer);
 
         map.addLayer(new OpenLayers.Layer.WMS("GeoBC",
-                        "geoCache.ashx?",
+                        "/WMS?",
                         {
                             layers: 'geobc',
                             transparent: true,
@@ -70,7 +70,8 @@
 
         var centerLL = new OpenLayers.LonLat(-123, 49.3);
         var centerM = centerLL.transform(new OpenLayers.Projection("EPSG:4326"), map.getProjectionObject());
-        map.setCenter(centerM, 12);
+        map.setCenter(centerM, 12);
+
         //map.zoomToMaxExtent();
         //if (!map.getCenter()) map.zoomToMaxExtent();
     </script>

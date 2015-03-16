@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GeoCache.Services.Wms</RootNamespace>
-    <AssemblyName>geoCache.Services.Wms</AssemblyName>
+    <AssemblyName>GeoCache.Services.Wms</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>

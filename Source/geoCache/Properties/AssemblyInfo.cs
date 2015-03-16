@@ -9,9 +9,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("GeoCache")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Blue Toque Software")]
 [assembly: AssemblyProduct("GeoCache")]
-[assembly: AssemblyCopyright("Copyright ©  2008")]
+[assembly: AssemblyCopyright("Copyright © Blue Toque Software 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

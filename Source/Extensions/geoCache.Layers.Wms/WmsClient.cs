@@ -104,7 +104,7 @@ namespace GeoCache.Layers.Wms
 				{
 					client.Headers.Add("user-agent", "GeoCache");
 					//throw new NotImplementedException(this._uri.ToString());
-                    Trace.TraceInformation("Fetching data from " + _uri, "WmsRequest");
+                    Trace.TraceInformation("WmsClient.Fetch: Fetching data from {0} ", _uri);
 					var data = client.DownloadData(_uri);
 					var dataOk = true;
 					foreach (var validator in ObjectManager.GetResponseValidators())

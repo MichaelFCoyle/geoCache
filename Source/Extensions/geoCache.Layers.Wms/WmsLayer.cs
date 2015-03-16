@@ -48,9 +48,11 @@ namespace GeoCache.Layers.Wms
 			                             		{"srs", Srs},
 			                             		{"format", Format},
 			                             		{"layers", Layers},
-                                                {"transparent", "true"}
+                                                {"transparent", Transparent.ToString()}
 			                             	});
 			return wms.Fetch();
 		}
+
+        public bool Transparent { get; set; }
 	}
 }

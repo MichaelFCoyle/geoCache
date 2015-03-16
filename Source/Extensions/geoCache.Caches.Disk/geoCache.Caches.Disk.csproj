@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GeoCache.Caches.Disk</RootNamespace>
-    <AssemblyName>geoCache.Caches.Disk</AssemblyName>
+    <AssemblyName>GeoCache.Caches.Disk</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>

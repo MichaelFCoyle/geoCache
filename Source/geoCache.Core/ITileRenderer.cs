@@ -15,9 +15,9 @@ using GeoCache.Core.Web;
 
 namespace GeoCache.Core
 {
-	public interface ITileRenderer
-	{
-		//Dictionary<string, ILayer> Layers { get; }
-		void RenderTile(IHttpResponse response, ITile tile, bool force);
-	}
+    public interface ITileRenderer
+    {
+        //Dictionary<string, ILayer> Layers { get; }
+        void RenderTile(IHttpResponse response, ITile tile, bool force);
+    }
 }

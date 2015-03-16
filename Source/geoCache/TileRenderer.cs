@@ -21,32 +21,32 @@ using GeoCache.Core.Web;
 
 namespace GeoCache
 {
-	public class TileRenderer : ITileRenderer
-	{
-		private readonly object cacheLock = new object();
-		private ICache _cache;
+    public class TileRenderer : ITileRenderer
+    {
+        private readonly object cacheLock = new object();
+        private ICache _cache;
 
-		public ICache Cache
-		{
-			get
-			{
-				if (_cache == null)
-				{
-					lock (cacheLock)
-					{
-						_cache = ObjectManager.GetCache(null, null);
-						if (_cache == null)
-							throw new Exception("Unable to find cache.");
-					}
-				}
-				return _cache;
-			}
-			set { _cache = value; }
-		}
+        public ICache Cache
+        {
+            get
+            {
+                if (_cache == null)
+                {
+                    lock (cacheLock)
+                    {
+                        _cache = ObjectManager.GetCache(null, null);
+                        if (_cache == null)
+                            throw new Exception("Unable to find cache.");
+                    }
+                }
+                return _cache;
+            }
+            set { _cache = value; }
+        }
 
-		#region ITileRenderer Members
-		#region python - renderTile
-		/*
+        #region ITileRenderer Members
+        #region python - renderTile
+        /*
     def renderTile (self, tile, force = False):
         from warnings import warn
         start = time.time()
@@ -72,65 +72,64 @@ namespace GeoCache
         
         return (layer.mime_type, image)
 		 */
-		#endregion
+        #endregion
 
-		public virtual void RenderTile(IHttpResponse response, ITile tile, bool force)
-		{
-			//do more cache checking here: SRS, width, height, layers 
+        public virtual void RenderTile(IHttpResponse response, ITile tile, bool force)
+        {
+            //do more cache checking here: SRS, width, height, layers 
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
-			byte[] image = null;
+            byte[] image = null;
 
-			if (!force)
-				image = Cache.Get(tile);
+            if (!force)
+                image = Cache.Get(tile);
 
-			if (image == null)
-			{
-				if (AbortIfTileNotInCache(response, tile))
-					return;
+            if (image == null)
+            {
+                if (AbortIfTileNotInCache(response, tile))
+                    return;
 
-				//TODO: 
-				//Test to serve a small image to the client, with a
-				//Response.AppendHeader("Refresh", "10; URL=<current url...>"
-				try
-				{
-					image = tile.Layer.Render(tile);
-					if (image != null)
-						image = Cache.Set(tile, image);
-					else
-						throw new InvalidDataException("Zero length data returned from layer.");
-				}
-				finally
-				{
+                //TODO: 
+                //Test to serve a small image to the client, with a
+                //Response.AppendHeader("Refresh", "10; URL=<current url...>"
+                try
+                {
+                    image = tile.Layer.Render(tile);
+                    if (image != null)
+                        image = Cache.Set(tile, image);
+                    else
+                        throw new InvalidDataException("Zero length data returned from layer.");
+                }
+                finally
+                {
                     stopWatch.Stop();
-                    Trace.TraceInformation(string.Format("Cache miss: {0}, Tile: x: {1}, y: {2}, z: {3}, time: {4}",
-                        tile.BBox, tile.X, tile.Y, tile.Z, stopWatch.Elapsed.TotalMilliseconds));
-				}
-			}
-			else
-			{
+                    Trace.TraceInformation("TileRenderer.RenderTile: Cache miss: {0}, Tile: x: {1}, y: {2}, z: {3}, time: {4}", tile.BBox, tile.X, tile.Y, tile.Z, stopWatch.Elapsed.TotalMilliseconds);
+                }
+            }
+            else
+            {
                 stopWatch.Stop();
-                Trace.TraceInformation(string.Format("Cache hit: {0}, Tile: x: {1}, y: {2}, z: {3}, time: {4}", tile.BBox, tile.X, tile.Y, tile.Z, stopWatch.Elapsed.TotalMilliseconds));
-			}
+                Trace.TraceInformation("TileRenderer.RenderTile: Cache hit: {0}, Tile: x: {1}, y: {2}, z: {3}, time: {4}", tile.BBox, tile.X, tile.Y, tile.Z, stopWatch.Elapsed.TotalMilliseconds);
+            }
 
-			if (image != null)
-			{
-				response.ContentType = tile.Layer.ContentType;
-				response.OutputStream.Write(image, 0, image.Length);
-			}
-		}
-		#endregion
+            if (image != null)
+            {
+                response.ContentType = tile.Layer.ContentType;
+                response.OutputStream.Write(image, 0, image.Length);
+            }
+        }
+        #endregion
 
-		protected static string GetAppSetting(string setting, string defaultValue)
-		{
-			string value = ConfigurationManager.AppSettings[setting];
-			return string.IsNullOrEmpty(value) ? defaultValue : value;
-		}
+        protected static string GetAppSetting(string setting, string defaultValue)
+        {
+            string value = ConfigurationManager.AppSettings[setting];
+            return string.IsNullOrEmpty(value) ? defaultValue : value;
+        }
 
-		protected virtual bool AbortIfTileNotInCache(IHttpResponse response, ITile tile)
-		{
-			return false;
-		}
+        protected virtual bool AbortIfTileNotInCache(IHttpResponse response, ITile tile)
+        {
+            return false;
+        }
 
-	}
+    }
 }

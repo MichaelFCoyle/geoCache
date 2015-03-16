@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("geoCache.Demo")]
+[assembly: AssemblyTitle("GeoCache.Demo")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("geoCache.Demo")]
-[assembly: AssemblyCopyright("Copyright ©  2008")]
+[assembly: AssemblyCompany("Blue Toque Software")]
+[assembly: AssemblyProduct("GeoCache")]
+[assembly: AssemblyCopyright("Copyright © Blue Toque Software 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

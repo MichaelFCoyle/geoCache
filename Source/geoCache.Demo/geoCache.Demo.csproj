@@ -10,8 +10,8 @@
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>geoCache.Demo</RootNamespace>
-    <AssemblyName>geoCache.Demo</AssemblyName>
+    <RootNamespace>GeoCache.Demo</RootNamespace>
+    <AssemblyName>GeoCache.Demo</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
@@ -82,22 +82,36 @@
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="geoCache.Unity.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\geoCache.TMS\geoCache.TMS.csproj">
+      <Project>{99581b91-4606-4834-8632-84fa5942abbd}</Project>
+      <Name>geoCache.TMS</Name>
+    </ProjectReference>
     <ProjectReference Include="..\geoCache\geoCache.csproj">
       <Project>{BC7E4E99-6B7F-4B8F-A00D-4B4EB0F1B48C}</Project>
       <Name>geoCache</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="geoCache.ashx" />
     <None Include="geoCache.cfg" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="TMS\" />
+    <Folder Include="WMS\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

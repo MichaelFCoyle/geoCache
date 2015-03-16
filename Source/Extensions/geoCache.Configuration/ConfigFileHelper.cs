@@ -124,8 +124,17 @@ namespace GeoCache.Configuration
 		{
 			private static readonly string[] _commonProperties = new[]
          		{
-         			"Name", "MaxResolution", "Srs", "BBox", "ExtentType", "Layers",
-         			"Units", "Url", "Extension", "DelayedLoading"
+         			"Name", 
+                    "MaxResolution", 
+                    "Srs", 
+                    "BBox", 
+                    "ExtentType", 
+                    "Layers",
+         			"Units", 
+                    "Url", 
+                    "Extension", 
+                    "DelayedLoading",
+                    "Transparent"
          		};
 
 			public static void ToConfigText(TextWriter writer, ILayer layer)

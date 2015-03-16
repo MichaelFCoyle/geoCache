@@ -23,80 +23,80 @@ using Microsoft.Practices.Unity.Configuration;
 
 namespace GeoCache
 {
-	public class UnityAddInExtensionLoader : IResolver
-	{
-		private static readonly object _containerLock = new object();
-		private static string _exeConfigFileName;
-		private static IUnityContainer _unityContainer;
+    public class UnityAddInExtensionLoader : IResolver
+    {
+        private static readonly object _containerLock = new object();
+        private static string _exeConfigFileName;
+        private static IUnityContainer _unityContainer;
 
-		public UnityAddInExtensionLoader()
-		{
-			_exeConfigFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "geoCache.Unity.config");
-		}
+        public UnityAddInExtensionLoader()
+        {
+            _exeConfigFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "geoCache.Unity.config");
+        }
 
-		public UnityAddInExtensionLoader(string exeConfigFileName)
-		{
-			_exeConfigFileName = exeConfigFileName;
-		}
+        public UnityAddInExtensionLoader(string exeConfigFileName)
+        {
+            _exeConfigFileName = exeConfigFileName;
+        }
 
-		internal static IUnityContainer UnityContainer
-		{
-			get
-			{
-				if (_unityContainer == null)
-				{
-					lock (_containerLock)
-					{
-						if (_unityContainer != null)
-							return _unityContainer;
-						var map = new ExeConfigurationFileMap
-						{
-							ExeConfigFilename = _exeConfigFileName
-						};
-						var config = ConfigurationManager.OpenMappedExeConfiguration(map, ConfigurationUserLevel.None);
-						var section = (UnityConfigurationSection)config.GetSection("unity");
-						var container = new UnityContainer();
-						section.Containers["geoCacheContainer"].Configure(container);
-						_unityContainer = container;
-						return container;
-					}
-				}
-				return _unityContainer;
-			}
-		}
+        internal static IUnityContainer UnityContainer
+        {
+            get
+            {
+                if (_unityContainer == null)
+                {
+                    lock (_containerLock)
+                    {
+                        if (_unityContainer != null)
+                            return _unityContainer;
+                        var map = new ExeConfigurationFileMap
+                        {
+                            ExeConfigFilename = _exeConfigFileName
+                        };
+                        var config = ConfigurationManager.OpenMappedExeConfiguration(map, ConfigurationUserLevel.None);
+                        var section = (UnityConfigurationSection)config.GetSection("unity");
+                        var container = new UnityContainer();
+                        section.Containers["geoCacheContainer"].Configure(container);
+                        _unityContainer = container;
+                        return container;
+                    }
+                }
+                return _unityContainer;
+            }
+        }
 
-		#region IResolver Members
-		public T Resolve<T>(string id, IDictionary<string, object> config)
-		{
-			try
-			{
-				{
-					
-					T extension = string.IsNullOrEmpty(id)
-									? UnityContainer.Resolve<T>()
-									: UnityContainer.Resolve<T>(id);
-					if((object)extension == null)
-						return default(T);
+        #region IResolver Members
+        public T Resolve<T>(string id, IDictionary<string, object> config)
+        {
+            try
+            {
+                {
 
-					if (config != null)
-					{
-						var helper = new PropertyHelper(extension);
-						helper.SetProperties(config);
-					}
-					return extension;
-				}
-			}
-			catch (Exception ex)
-			{
-				Trace.WriteLine("Failed to load " + typeof(T).FullName + ": " + ex.Message);
-			}
-			return default(T);
-		}
+                    T extension = string.IsNullOrEmpty(id)
+                                    ? UnityContainer.Resolve<T>()
+                                    : UnityContainer.Resolve<T>(id);
+                    if ((object)extension == null)
+                        return default(T);
 
-		public IEnumerable<T> ResolveAll<T>()
-		{
-			return UnityContainer.ResolveAll<T>();
-		}
-		#endregion
-	}
+                    if (config != null)
+                    {
+                        var helper = new PropertyHelper(extension);
+                        helper.SetProperties(config);
+                    }
+                    return extension;
+                }
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceError("Failed to load {0}:\r\n{1}", typeof(T).FullName, ex);
+            }
+            return default(T);
+        }
+
+        public IEnumerable<T> ResolveAll<T>()
+        {
+            return UnityContainer.ResolveAll<T>();
+        }
+        #endregion
+    }
 }

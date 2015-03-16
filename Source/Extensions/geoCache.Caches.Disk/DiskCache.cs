@@ -173,7 +173,9 @@ namespace GeoCache.Caches.Disk
 #endif
 				}
 				else
-					Trace.WriteLine("File not found at secondary storage " + key, "DiskCache.Get");
+                {
+					Trace.TraceError("DiskCache.Get: File not found at secondary storage {0}", key );
+                }
 			}
 			return null;
 		}
@@ -181,7 +183,7 @@ namespace GeoCache.Caches.Disk
 		public byte[] GetFile(string filename)
 		{
 #if DEBUG
-			Trace.WriteLine("Reading from file " + filename, "DiskCache.GetFile");
+			Trace.TraceInformation("DiskCache.GetFile: Reading from file {0}", filename );
 #endif
 			return File.ReadAllBytes(filename);
 		}
@@ -222,7 +224,7 @@ namespace GeoCache.Caches.Disk
 			try
 			{
 #if DEBUG
-				Trace.WriteLine("Writing to file " + filename, "DiskCache.Set");
+				Trace.TraceInformation("DiskCache.Set: Writing to file {0}", filename);
 #endif
 				File.WriteAllBytes(filename, data);
 			}
@@ -290,7 +292,7 @@ namespace GeoCache.Caches.Disk
 				var st = new FileInfo(name);
 				if (st.CreationTime + StaleInterval < DateTime.Now)
 				{
-					Trace.WriteLine(string.Format("Warning: Removing stale lock {0}", name), "DiskCache");
+					Trace.TraceWarning("DiskCache: Warning, removing stale lock {0}", name);
 					Unlock(tile);
 					MakeDirs(name);
 					return true;
@@ -321,7 +323,7 @@ namespace GeoCache.Caches.Disk
 			}
 			catch (Exception ex)
 			{
-				Trace.WriteLine(string.Format("Warning: Unlock {0} failed: {1}", name, ex.Message), "DiskCache");
+				Trace.TraceError("DiskCache: Warning, Unlock {0} failed:\r\n{1}", name, ex);
 			}
 		}
 
