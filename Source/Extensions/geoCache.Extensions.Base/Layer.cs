@@ -22,6 +22,7 @@ namespace GeoCache.Extensions.Base
     public abstract class Layer : ILayer
     {
         private IBBox _bBox = new BBox(-180, -90, 180, 90);
+        private IBBox _mapBBox = new BBox(-180, -90, 180, 90);
         private bool _delayedLoading = true;
         private string _extension = "png";
         private ExtentType _extentType = ExtentType.Loose;
@@ -37,21 +38,45 @@ namespace GeoCache.Extensions.Base
         }
 
         protected Layer(string name) :
-            this(name, null, new BBox(-180, -90, 180, 90),
-                 "EPSG:4326", string.Empty, null,
-                 new Size(256, 256), 20, null,
-                 "png", null, null,
-                 null, 0.2F,
-                 ExtentType.Strict, null, string.Empty)
+            this(
+                name, 
+                null, 
+                new BBox(-180, -90, 180, 90),
+                "EPSG:4326", 
+                string.Empty, 
+                null,
+                new Size(256, 256), 
+                20, 
+                null,
+                "png", 
+                null, 
+                null,
+                null, 
+                0.2F,
+                ExtentType.Strict, 
+                null, 
+                string.Empty)
         {
         }
 
-        protected Layer(string name, string layers, IBBox bbox,
-                     string srs, string description, double? maxResolution,
-                     Size size, int levels, Resolutions resolutions,
-                     string extension, string mimeType, ICache cache,
-                     string watermarkImage, float? watermarkOpacity,
-                     ExtentType extentType, object units, string tmsType)
+        protected Layer(
+                string name, 
+                string layers, 
+                IBBox bbox,
+                string srs, 
+                string description, 
+                double? maxResolution,
+                Size size, 
+                int levels, 
+                Resolutions resolutions,
+                string extension, 
+                string mimeType, 
+                ICache cache,
+                string watermarkImage, 
+                float? watermarkOpacity,
+                ExtentType extentType, 
+                object units, 
+                string tmsType)
         {
             Name = name;
             Description = description;
@@ -76,6 +101,8 @@ namespace GeoCache.Extensions.Base
             WatermarkImage = watermarkImage;
             WatermarkOpacity = watermarkOpacity;
         }
+
+        #region properties
 
         #region python __init__ and slots
         /*
@@ -150,8 +177,11 @@ def __init__ (self, name, layers = None, bbox = (-180, -90, 180, 90),
         }
 
         public ICache Cache { get; set; }
+
         public string Description { get; set; }
+        
         public string WatermarkImage { get; set; }
+        
         public float? WatermarkOpacity { get; set; }
 
         /// <summary>
@@ -213,9 +243,22 @@ def __init__ (self, name, layers = None, bbox = (-180, -90, 180, 90),
 
         public Size MetaBuffer { get; set; }
 
+        public bool DelayedLoading
+        {
+            get { return _delayedLoading; }
+            set { _delayedLoading = value; }
+        }
+
+        #endregion
+
         public ITile GetTile(IBBox bbox)
         {
             return new Tile(this, GetCell(bbox));
+        }
+
+        public ITile GetTile(Cell cell)
+        {
+            return new Tile(this, cell);
         }
 
         public string Format
@@ -230,10 +273,14 @@ def __init__ (self, name, layers = None, bbox = (-180, -90, 180, 90),
 
         public abstract Size GetMetaSize(int z);
 
-        public bool DelayedLoading
+        /// <summary>
+        /// The bounding box where there is data
+        /// This can be used to "reject" a request without caching or processing it
+        /// </summary>
+        public IBBox MapBBox
         {
-            get { return _delayedLoading; }
-            set { _delayedLoading = value; }
+            get { return _mapBBox; }
+            set { _mapBBox = value; }
         }
 
         #region python

@@ -80,8 +80,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers.cs" />
     <Compile Include="ObjectManager.cs" />
     <Compile Include="CacheHandler.cs" />
+    <Compile Include="OsmHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TileRenderer.cs" />
     <Compile Include="TmsHandler.cs" />

@@ -34,7 +34,7 @@ namespace GeoCache
                     Int32.TryParse(parts[3], out y);
                     Int32.TryParse(parts[4], out z);
 
-                    string fileName = GetTileCacheFileName(layer, x, y, z, "png");
+                    string fileName = Helpers.GetTileCacheFileName(layer, x, y, z, "png");
                     fileName = Path.Combine("D://Temp//GeoCache//", fileName);
 
                     if (!File.Exists(fileName))
@@ -63,20 +63,7 @@ namespace GeoCache
         }
         #endregion
 
-        private static string GetTileCacheFileName(string layer, int x, int y, int z, string ext)
-        {
-            return string.Join("/", new[]
-        	{
-        		layer,
-        		string.Format("{0:00}", z),
-        		string.Format("{0:000}", Convert.ToInt32(x / 1000000)),
-        		string.Format("{0:000}", (Convert.ToInt32(x) / 1000) % 1000),
-        		string.Format("{0:000}", (Convert.ToInt32(x) % 1000)),
-        		string.Format("{0:000}", Convert.ToInt32(y / 1000000)),
-        		string.Format("{0:000}", (Convert.ToInt32(y/ 1000) % 1000)),
-        		string.Format("{0:000}.{1}", (Convert.ToInt32(y) % 1000), ext)
-        	});
-        }
+    
  
 
     }

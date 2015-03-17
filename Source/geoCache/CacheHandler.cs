@@ -28,9 +28,9 @@ namespace GeoCache
 	{
 		static CacheHandler()
 		{
-			Resolver.Current = new UnityAddInExtensionLoader();
-		}
-
+            if (Resolver.Current == null)
+                Resolver.Current = new UnityAddInExtensionLoader();
+        }
 
 		#region IHttpHandler Members
 		public void ProcessRequest(HttpContext context)

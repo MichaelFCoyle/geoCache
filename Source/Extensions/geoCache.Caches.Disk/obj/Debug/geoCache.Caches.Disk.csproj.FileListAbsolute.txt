@@ -1,15 +1,5 @@
-d:\Users\Michael Coyle\Desktop\geoCache.02\Source\Extensions\geoCache.Caches.Disk\obj\Debug\geoCache.Caches.Disk.csprojResolveAssemblyReference.cache
-d:\Users\Michael Coyle\Desktop\geoCache.02\Source\geoCache.Demo\bin\geoCache.Caches.Disk.dll
-d:\Users\Michael Coyle\Desktop\geoCache.02\Source\geoCache.Demo\bin\geoCache.Caches.Disk.pdb
-d:\Users\Michael Coyle\Desktop\geoCache.02\Source\Extensions\geoCache.Caches.Disk\obj\Debug\geoCache.Caches.Disk.dll
-d:\Users\Michael Coyle\Desktop\geoCache.02\Source\Extensions\geoCache.Caches.Disk\obj\Debug\geoCache.Caches.Disk.pdb
-D:\Development\geoCache.02\Source\geoCache.Demo\bin\geoCache.Caches.Disk.dll
-D:\Development\geoCache.02\Source\geoCache.Demo\bin\geoCache.Caches.Disk.pdb
-D:\Development\geoCache.02\Source\Extensions\geoCache.Caches.Disk\obj\Debug\geoCache.Caches.Disk.csprojResolveAssemblyReference.cache
-D:\Development\geoCache.02\Source\Extensions\geoCache.Caches.Disk\obj\Debug\geoCache.Caches.Disk.dll
-D:\Development\geoCache.02\Source\Extensions\geoCache.Caches.Disk\obj\Debug\geoCache.Caches.Disk.pdb
-D:\Development\geoCache\Source\geoCache.Demo\bin\geoCache.Caches.Disk.dll
-D:\Development\geoCache\Source\geoCache.Demo\bin\geoCache.Caches.Disk.pdb
+D:\Development\geoCache\Source\geoCache.Demo\bin\GeoCache.Caches.Disk.dll
+D:\Development\geoCache\Source\geoCache.Demo\bin\GeoCache.Caches.Disk.pdb
 D:\Development\geoCache\Source\Extensions\geoCache.Caches.Disk\obj\Debug\geoCache.Caches.Disk.csprojResolveAssemblyReference.cache
-D:\Development\geoCache\Source\Extensions\geoCache.Caches.Disk\obj\Debug\geoCache.Caches.Disk.dll
-D:\Development\geoCache\Source\Extensions\geoCache.Caches.Disk\obj\Debug\geoCache.Caches.Disk.pdb
+D:\Development\geoCache\Source\Extensions\geoCache.Caches.Disk\obj\Debug\GeoCache.Caches.Disk.dll
+D:\Development\geoCache\Source\Extensions\geoCache.Caches.Disk\obj\Debug\GeoCache.Caches.Disk.pdb

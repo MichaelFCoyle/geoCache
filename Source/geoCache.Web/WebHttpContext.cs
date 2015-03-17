@@ -11,20 +11,22 @@
 // Licensed under the terms of the GNU Lesser General Public License
 // (http://www.opensource.org/licenses/lgpl-license.php)
 
-using GeoCache.Core.Web;
 using System.Web;
+using GeoCache.Core.Web;
 
 namespace GeoCache.Web
 {
-	public class WebHttpContext : IHttpContext
-	{
-		readonly HttpContext _context;
-		public WebHttpContext(HttpContext context)
-		{
-			_context = context;
-		}
+    public class WebHttpContext : IHttpContext
+    {
+        public WebHttpContext(HttpContext context)
+        {
+            _context = context;
+        }
 
-		public IHttpRequest Request { get { return new WebHttpRequest(_context.Request); } }
-		public IHttpResponse Response { get { return new WebHttpResponse(_context.Response); } }
-	}
+        readonly HttpContext _context;
+
+        public IHttpRequest Request { get { return new WebHttpRequest(_context.Request); } }
+
+        public IHttpResponse Response { get { return new WebHttpResponse(_context.Response); } }
+    }
 }

@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Specialized;
+using System.IO;
 using GeoCache.Core;
 using GeoCache.Core.Web;
 
@@ -20,18 +20,28 @@ namespace GeoCache.Layers.Tms
 
         public void ProcessRequest(IHttpContext context)
         {
-            var requestParams = context.Request.Params;
+            string[] parts = context.Request.FilePath.Split('/');
+            if (parts.Length != 6 ||parts[1]!="Tiles")
+                throw new InvalidDataException("Zero length data returned from layer.");
 
-            TileRenderer.RenderTile(context.Response, GetMap(requestParams), false);
+            TileRenderer.RenderTile(context.Response, GetMap(parts), false);
         }
 
-        ITile GetMap(NameValueCollection param)
+        ITile GetMap(string[] param)
         {
-            var bbox = new BBox(param["bbox"]);
-            var layer = GetLayer(param["layers"]);
-            var tile = layer.GetTile(bbox);
+            string l= param[2];
+            int x, y, z;
+            Int32.TryParse(param[3], out x);
+            Int32.TryParse(param[4], out y);
+            Int32.TryParse(param[5], out z);
+
+            Cell cell = new Cell(x, y, z);
+
+            //var bbox = new BBox(param["bbox"]);
+            var layer = GetLayer(l);
+            var tile = layer.GetTile(cell);
             if (tile == null)
-                throw new Exception(string.Format("couldn't calculate tile index for layer {0} from ({1})", layer.Name, bbox));
+                throw new Exception(string.Format("couldn't calculate tile index for layer {0} from ({1})", layer.Name, cell));
             return tile;
         }
 

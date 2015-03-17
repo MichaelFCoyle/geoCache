@@ -11,28 +11,30 @@
 // Licensed under the terms of the GNU Lesser General Public License
 // (http://www.opensource.org/licenses/lgpl-license.php)
 
-using GeoCache.Core.Web;
+using System.IO;
 using System.Web;
+using GeoCache.Core.Web;
 
 namespace GeoCache.Web
 {
 	public class WebHttpResponse : IHttpResponse
 	{
-		readonly HttpResponse _response;
 		public WebHttpResponse(HttpResponse response)
 		{
 			_response = response;
 		}
-		
+
+        readonly HttpResponse _response;
+
 		public string ContentType
 		{
 			get { return _response.ContentType; }
 			set { _response.ContentType = value; }
 		}
 
-		public System.IO.TextWriter Output { get { return _response.Output; } }
+		public TextWriter Output { get { return _response.Output; } }
 
-		public System.IO.Stream OutputStream { get { return _response.OutputStream; } }
+		public Stream OutputStream { get { return _response.OutputStream; } }
 
 		public void Write(string s) { _response.Write(s); }
 

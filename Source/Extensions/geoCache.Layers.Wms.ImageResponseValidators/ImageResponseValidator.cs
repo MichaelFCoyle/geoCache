@@ -32,7 +32,10 @@ namespace GeoCache.Layers.Wms.ImageResponseValidators
 			using (var stream = new MemoryStream(data))
 			{
 				Image image;
-				try { image = Image.FromStream(stream, true, ValidateImageData); }
+				try 
+                { 
+                    image = Image.FromStream(stream, true, ValidateImageData); 
+                }
 				catch
 				{
 					if (ThrowIfNotImage)
@@ -50,6 +53,7 @@ namespace GeoCache.Layers.Wms.ImageResponseValidators
 		}
 
 		public bool ThrowIfNotImage { get; set; }
+
 		public string ThrowIfNotImageString
 		{
 			set

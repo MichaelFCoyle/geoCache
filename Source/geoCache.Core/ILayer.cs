@@ -18,17 +18,36 @@ namespace GeoCache.Core
 	public interface ILayer
 	{
 		IBBox BBox { get; }
-		string Extension { get; }
-		ExtentType ExtentType { get; }
-		string Format { get; }
-		Size GetMetaSize(int z);
-		ITile GetTile(IBBox bbox);
-		Size MetaBuffer { get; }
-		string ContentType { get; }
-		string Name { get; set; }
-		byte[] Render(ITile tile);
-		Resolutions Resolutions { get; }
-		Size Size { get; }
-		bool DelayedLoading { get; }
+
+        string Extension { get; }
+		
+        ExtentType ExtentType { get; }
+		
+        string Format { get; }
+		
+        Size GetMetaSize(int z);
+
+        ITile GetTile(IBBox bbox);
+        
+        ITile GetTile(Cell cell);
+		
+        Size MetaBuffer { get; }
+		
+        string ContentType { get; }
+		
+        string Name { get; set; }
+		
+        byte[] Render(ITile tile);
+		
+        Resolutions Resolutions { get; }
+		
+        Size Size { get; }
+		
+        bool DelayedLoading { get; }
+
+        /// <summary>
+        /// The size of the map data
+        /// </summary>
+        IBBox MapBBox { get; }
 	}
 }

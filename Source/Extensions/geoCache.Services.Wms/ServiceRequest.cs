@@ -17,8 +17,8 @@ using GeoCache.Core;
 
 namespace GeoCache.Services.Wms
 {
-	#region python
-	/*
+    #region python
+    /*
 	class Request (object):
 		def __init__ (self, service):
 			self.service = service
@@ -28,32 +28,33 @@ namespace GeoCache.Services.Wms
 			except:
 				raise TileCacheException("The requested layer (%s) does not exist. Available layers are: \n * %s" % (layername, "\n * ".join(self.service.layers.keys()))) 
 	 */
-	#endregion
-	public class ServiceRequest
-	{
-		public ServiceRequest() { }
+    #endregion
+    public class ServiceRequest
+    {
+        public ServiceRequest() { }
 
-		public ServiceRequest(ITileRenderer tileRenderer, ILayerContainer layerContainer)
-		{
-			TileRenderer = tileRenderer;
-			LayerContainer = layerContainer;
-		}
+        public ServiceRequest(ITileRenderer tileRenderer, ILayerContainer layerContainer)
+        {
+            TileRenderer = tileRenderer;
+            LayerContainer = layerContainer;
+        }
 
-		public ILayer GetLayer(string layerName)
-		{
-			if (string.IsNullOrEmpty(layerName))
-				throw new ArgumentNullException("layerName");
+        public ILayer GetLayer(string layerName)
+        {
+            if (string.IsNullOrEmpty(layerName))
+                throw new ArgumentNullException("layerName");
 
-			if(LayerContainer == null)
-				throw new NotSupportedException("Unable to get layer when LayerContainer is null");
+            if (LayerContainer == null)
+                throw new NotSupportedException("Unable to get layer when LayerContainer is null");
 
-			if (!LayerContainer.Layers.ContainsKey(layerName))
-				throw new Exception(string.Format("The requested layer ({0}) does not exist.", layerName)); //Available layers are: \n ", (layername, "\n * ".join(self.service.layers.keys()))) 
+            if (!LayerContainer.Layers.ContainsKey(layerName))
+                throw new Exception(string.Format("The requested layer ({0}) does not exist.", layerName)); //Available layers are: \n ", (layername, "\n * ".join(self.service.layers.keys()))) 
 
-			return LayerContainer.Layers[layerName];
-		}
+            return LayerContainer.Layers[layerName];
+        }
 
-		protected ITileRenderer TileRenderer { get; set; }
-		protected ILayerContainer LayerContainer { get; set; }
-	}
+        protected ITileRenderer TileRenderer { get; set; }
+
+        protected ILayerContainer LayerContainer { get; set; }
+    }
 }

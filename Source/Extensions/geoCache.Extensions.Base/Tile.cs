@@ -17,24 +17,12 @@ using GeoCache.Core;
 
 namespace GeoCache.Extensions.Base
 {
-	//public struct Bounds { public double MinX, MinY, MaxX, MaxY;}
+    //public struct Bounds { public double MinX, MinY, MaxX, MaxY;}
 
-	public class Tile : ITile
-	{
-		#region python
-		/*
-		__slots__ = ( "layer", "x", "y", "z", "data" )
-		 */
-		#endregion
-
-		public ILayer Layer { get; set; }
-		public Cell Cell { get; set; }
-		public double X { get { return Cell.X; } }
-		public double Y { get { return Cell.Y; } }
-		public int Z { get { return Cell.Z; } }
-
-		#region python
-		/*
+    public class Tile : ITile
+    {
+        #region python
+        /*
 		def __init__ (self, layer, x, y, z):
 			self.layer = layer
 			self.x = x
@@ -42,26 +30,39 @@ namespace GeoCache.Extensions.Base
 			self.z = z
 			self.data = None
 		 */
-		#endregion
-		public Tile(ILayer layer, Cell cell)
-		{
-			Layer = layer;
-			Cell = cell;
-		}
+        #endregion
+        public Tile(ILayer layer, Cell cell)
+        {
+            Layer = layer;
+            Cell = cell;
+        }
 
-		public Tile(ILayer layer, double x, double y, int z)
-			: this(layer, new Cell(x, y, z)) { }
+        public Tile(ILayer layer, double x, double y, int z)
+            : this(layer, new Cell(x, y, z)) { }
 
-		#region python
-		/*
+
+        #region properties
+
+        public ILayer Layer { get; set; }
+
+        public Cell Cell { get; set; }
+
+        public double X { get { return Cell.X; } }
+
+        public double Y { get { return Cell.Y; } }
+
+        public int Z { get { return Cell.Z; } }
+
+        #region python
+        /*
 		def size (self):
 			return self.layer.size
 		 */
-		#endregion
-		public virtual Size Size { get { return Layer.Size; } }
+        #endregion
+        public virtual Size Size { get { return Layer.Size; } }
 
-		#region python
-		/*
+        #region python
+        /*
 		def bounds (self):
 			res  = self.layer.resolutions[self.z]
 			minx = self.layer.bbox[0] + (res * self.x * self.layer.size[0])
@@ -70,31 +71,32 @@ namespace GeoCache.Extensions.Base
 			maxy = self.layer.bbox[1] + (res * (self.y + 1) * self.layer.size[1])
 			return (minx, miny, maxx, maxy)
 		 */
-		#endregion
-		public virtual IBBox Bounds
-		{
-			get
-			{
-				var res = Layer.Resolutions[Z];
-				return new BBox
-				{
-					MinX = Layer.BBox.MinX + (res * Cell.X * Layer.Size.Width/*[0]*/),
-					MinY = Layer.BBox.MinY + (res * Cell.Y * Layer.Size.Height/*[1]*/),
-					MaxX = Layer.BBox.MinX + (res * (Cell.X + 1) * Layer.Size.Width/*[0]*/),
-					MaxY = Layer.BBox.MinY + (res * (Cell.Y + 1) * Layer.Size.Height/*[1]*/)
-				};
-			}
-		}
+        #endregion
+        public virtual IBBox Bounds
+        {
+            get
+            {
+                var res = Layer.Resolutions[Z];
+                return new BBox
+                {
+                    MinX = Layer.BBox.MinX + (res * Cell.X * Layer.Size.Width/*[0]*/),
+                    MinY = Layer.BBox.MinY + (res * Cell.Y * Layer.Size.Height/*[1]*/),
+                    MaxX = Layer.BBox.MinX + (res * (Cell.X + 1) * Layer.Size.Width/*[0]*/),
+                    MaxY = Layer.BBox.MinY + (res * (Cell.Y + 1) * Layer.Size.Height/*[1]*/)
+                };
+            }
+        }
 
-		#region python
-		/*
+        #region python
+        /*
 		def bbox (self):
 			return ",".join(map(str, self.bounds()))
 		 */
-		#endregion
-		public string BBox
-		{
-			get { return Bounds.ToString(); }
-		}
-	}
+        #endregion
+        public string BBox
+        {
+            get { return Bounds.ToString(); }
+        }
+        #endregion
+    }
 }

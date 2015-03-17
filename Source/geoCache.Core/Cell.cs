@@ -15,51 +15,54 @@ using System;
 
 namespace GeoCache.Core
 {
-	public struct Cell : IEquatable<Cell>
-	{
-		//public Cell() { }
-		public Cell(double x, double y, int z)
-		{
-			_x = x;
-			_y = y;
-			_z = z;
-		}
-		double _x, _y;
-		int _z;
-		public double X { get { return _x; } set { _x = value; } }
-		public double Y { get { return _y; } set { _y = value; } }
-		public int Z { get { return _z; } set { _z = value; } }
+    public struct Cell : IEquatable<Cell>
+    {
+        public Cell(double x, double y, int z)
+        {
+            _x = x;
+            _y = y;
+            _z = z;
+        }
 
-		public override string ToString()
-		{
-			return string.Format("Cell X={0} Y={1} Z={2}", X, Y, X);
-		}
+        double _x, _y;
+        int _z;
 
-		public override int GetHashCode()
-		{
-			return X.GetHashCode() ^ Y.GetHashCode() ^ Z;
-		}
+        public double X { get { return _x; } set { _x = value; } }
 
-		public override bool Equals(object obj)
-		{
-			if (obj is Cell)
-				return Equals((Cell)obj);
-			return false;
-		}
+        public double Y { get { return _y; } set { _y = value; } }
 
-		public bool Equals(Cell other)
-		{
-			return other.X == X && other.Y == Y && other.Z == Z;
-		}
+        public int Z { get { return _z; } set { _z = value; } }
 
-		public static bool operator ==(Cell cell1, Cell cell2)
-		{
-			return cell1.Equals(cell2);
-		}
+        public override string ToString()
+        {
+            return string.Format("Cell X={0} Y={1} Z={2}", X, Y, X);
+        }
 
-		public static bool operator !=(Cell cell1, Cell cell2)
-		{
-			return !cell1.Equals(cell2);
-		}
-	}
+        public override int GetHashCode()
+        {
+            return X.GetHashCode() ^ Y.GetHashCode() ^ Z;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Cell)
+                return Equals((Cell)obj);
+            return false;
+        }
+
+        public bool Equals(Cell other)
+        {
+            return other.X == X && other.Y == Y && other.Z == Z;
+        }
+
+        public static bool operator ==(Cell cell1, Cell cell2)
+        {
+            return cell1.Equals(cell2);
+        }
+
+        public static bool operator !=(Cell cell1, Cell cell2)
+        {
+            return !cell1.Equals(cell2);
+        }
+    }
 }

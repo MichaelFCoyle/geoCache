@@ -23,6 +23,8 @@ namespace GeoCache.Layers.Wms
 	{
 		public Uri Url { get; set; }
 
+        public bool Transparent { get; set; }
+
 		#region python
 		/*
         wms = WMSClient.WMS( self.url, {
@@ -53,6 +55,5 @@ namespace GeoCache.Layers.Wms
 			return wms.Fetch();
 		}
 
-        public bool Transparent { get; set; }
 	}
 }

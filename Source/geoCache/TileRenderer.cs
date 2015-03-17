@@ -15,6 +15,7 @@
 using System;
 using System.Configuration;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using GeoCache.Core;
 using GeoCache.Core.Web;
@@ -82,9 +83,11 @@ namespace GeoCache
 
             byte[] image = null;
 
-            if (!force)
+            if (!tile.Layer.MapBBox.Contains(tile.Bounds.MinX, tile.Bounds.MinY))
+                image = Helpers.Create(tile.Size.Width, tile.Size.Height);
+            else if (!force)
                 image = Cache.Get(tile);
-
+            
             if (image == null)
             {
                 if (AbortIfTileNotInCache(response, tile))

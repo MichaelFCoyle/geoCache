@@ -15,33 +15,34 @@
 
 namespace GeoCache.Services.Wms
 {
-	class Capabilities
-	{
-		public string Format { get; private set; }
-		public object Data { get; private set; }
+    class Capabilities
+    {
+        public string Format { get; private set; }
+       
+        public object Data { get; private set; }
 
-		#region python
-		/*
+        #region python
+        /*
 		def __init__ (self, format, data):
 			self.format = format
 			self.data   = data
 		 */
-		#endregion
-		public Capabilities(string format, string data)
-			: this(format)
-		{
-			Data = data;
-		}
-		public Capabilities(string format, byte[] data)
-		{
-			Format = format;
-			Data = data;
-		}
+        #endregion
+        public Capabilities(string format, string data)
+            : this(format)
+        {
+            Data = data;
+        }
+        public Capabilities(string format, byte[] data)
+        {
+            Format = format;
+            Data = data;
+        }
 
-		private Capabilities(string format)
-		{
-			Format = format;
-		}
+        private Capabilities(string format)
+        {
+            Format = format;
+        }
 
-	}
+    }
 }

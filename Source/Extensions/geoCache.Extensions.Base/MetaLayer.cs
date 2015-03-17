@@ -18,19 +18,19 @@ using GeoCache.Core;
 
 namespace GeoCache.Extensions.Base
 {
-	public abstract class MetaLayer : Layer
-	{
-		#region python
-		/*
+    public abstract class MetaLayer : Layer
+    {
+        #region python
+        /*
     __slots__ = ('metaTile', 'metaSize', 'metaBuffer')
 		 */
-		#endregion
+        #endregion
 
-		private readonly bool MetaTile;
-		private Size MetaSize;
+        private readonly bool MetaTile;
+        private Size MetaSize;
 
-		#region python
-		/*
+        #region python
+        /*
     def __init__ (self, name, metatile = "", metasize = (5,5),
                               metabuffer = (10,10), **kwargs):
         Layer.__init__(self, name, **kwargs)
@@ -44,119 +44,122 @@ namespace GeoCache.Extensions.Base
         self.metaSize    = metasize
         self.metaBuffer  = metabuffer
 		*/
-		#endregion
+        #endregion
 
-		protected MetaLayer() : this(string.Empty)
-		{
-		}
+        protected MetaLayer()
+            : this(string.Empty)
+        {
+        }
 
-		protected MetaLayer(string name)
-			: this(name, false, new Size(5, 5), new Size(10, 10))
-		{
-		}
+        protected MetaLayer(string name)
+            : this(name, false, new Size(5, 5), new Size(10, 10))
+        {
+        }
 
-		protected MetaLayer(string name, bool metaTile, Size metaSize, Size metaBuffer)
-			: base(name)
-		{
-			MetaTile = metaTile;
-			MetaSize = metaSize;
-			MetaBuffer = metaBuffer;
-		}
+        protected MetaLayer(string name, bool metaTile, Size metaSize, Size metaBuffer)
+            : base(name)
+        {
+            MetaTile = metaTile;
+            MetaSize = metaSize;
+            MetaBuffer = metaBuffer;
+        }
 
-		#region python
-		/*
+        #region python
+        /*
     def getMetaSize (self, z):
         if not self.metaTile: return (1,1)
         maxcol, maxrow = self.grid(z)
         return ( min(self.metaSize[0], int(maxcol + 1)), 
                  min(self.metaSize[1], int(maxrow + 1)) )
 		*/
-		#endregion
+        #endregion
 
-		public override Size GetMetaSize(int z)
-		{
-			if (!MetaTile)
-				return new Size(1, 1);
-			SizeD size = Grid(z);
-			return new Size
-			       	{
-			       		//TODO: Verify python-conversion...
-			       		Width = Math.Min(MetaSize.Width, Convert.ToInt32(size.Width + 1)),
-			       		Height = Math.Min(MetaSize.Height, Convert.ToInt32(size.Height + 1))
-			       	};
-		}
+        public override Size GetMetaSize(int z)
+        {
+            if (!MetaTile)
+                return new Size(1, 1);
+            SizeD size = Grid(z);
+            return new Size
+                    {
+                        //TODO: Verify python-conversion...
+                        Width = Math.Min(MetaSize.Width, Convert.ToInt32(size.Width + 1)),
+                        Height = Math.Min(MetaSize.Height, Convert.ToInt32(size.Height + 1))
+                    };
+        }
 
-		public MetaTile GetMetaTile(ITile tile)
-		{
-			int x = Convert.ToInt32(tile.X / MetaSize.Width);
-			int y = Convert.ToInt32(tile.X / MetaSize.Height);
-			return new MetaTile(this, x, y, tile.Z);
-		}
+        public MetaTile GetMetaTile(ITile tile)
+        {
+            int x = Convert.ToInt32(tile.X / MetaSize.Width);
+            int y = Convert.ToInt32(tile.X / MetaSize.Height);
+            return new MetaTile(this, x, y, tile.Z);
+        }
 
-		public byte[] RenderMetaTile(MetaTile metatile, ITile tile)
-		{
-			byte[] data = RenderTile(metatile);
-			Image image = ImageHelper.Open(data);
-			Size metaSize = GetMetaSize(metatile.Z);
-			int metaHeight = metaSize.Height * Size.Height + 2 * MetaBuffer.Height;
-			for (int i = 0; i < metaSize.Width; i++)
-				for (int j = 0; j < metaSize.Height; i++)
-				{
-					int minX = i * Size.Width + MetaBuffer.Width;
-					int maxX = minX + Size.Width;
-					// this next calculation is because image origin is (top, left)
-					int maxY = metaHeight - (j * Size.Height + MetaBuffer.Height);
-					int minY = maxY - Size.Height;
-					Image subImage = image.Crop(minX, minY, maxX, maxY);
-					byte[] subdata = subImage.GetBytes();
-					double x = metatile.X * MetaSize.Width + i;
-					double y = metatile.Y * MetaSize.Height + i;
+        public byte[] RenderMetaTile(MetaTile metatile, ITile tile)
+        {
+            byte[] data = RenderTile(metatile);
+            Image image = ImageHelper.Open(data);
+            Size metaSize = GetMetaSize(metatile.Z);
+            int metaHeight = metaSize.Height * Size.Height + 2 * MetaBuffer.Height;
+            for (int i = 0; i < metaSize.Width; i++)
+            {
+                for (int j = 0; j < metaSize.Height; i++)
+                {
+                    int minX = i * Size.Width + MetaBuffer.Width;
+                    int maxX = minX + Size.Width;
+                    // this next calculation is because image origin is (top, left)
+                    int maxY = metaHeight - (j * Size.Height + MetaBuffer.Height);
+                    int minY = maxY - Size.Height;
+                    Image subImage = image.Crop(minX, minY, maxX, maxY);
+                    byte[] subdata = subImage.GetBytes();
+                    double x = metatile.X * MetaSize.Width + i;
+                    double y = metatile.Y * MetaSize.Height + i;
 
-					var subtile = new Tile(this, x, y, metatile.Z);
-					if (!string.IsNullOrEmpty(WatermarkImage))
-						subdata = Watermark(subdata).GetBytes();
-					Cache.Set(subtile, subdata);
-					if (x == tile.X && y == tile.Y)
-						return subdata;
-				}
-			return null;
-		}
+                    var subtile = new Tile(this, x, y, metatile.Z);
+                    if (!string.IsNullOrEmpty(WatermarkImage))
+                        subdata = Watermark(subdata).GetBytes();
+                    Cache.Set(subtile, subdata);
+                    if (x == tile.X && y == tile.Y)
+                        return subdata;
+                }
+            }
+            return null;
+        }
 
-		public override byte[] Render(ITile tile)
-		{
-			if (MetaTile)
-			{
-				MetaTile metatile = GetMetaTile(tile);
-				try
-				{
-					Cache.Lock(metatile);
-					return Cache.Get(tile) ?? RenderMetaTile(metatile, tile);
-				}
-				finally
-				{
-					Cache.Unlock(metatile);
-				}
-			}
-			else
-			{
-				if (!string.IsNullOrEmpty(WatermarkImage))
-					return Watermark(RenderTile(tile)).GetBytes();
-				return RenderTile(tile);
-			}
-		}
+        public override byte[] Render(ITile tile)
+        {
+            if (MetaTile)
+            {
+                MetaTile metatile = GetMetaTile(tile);
+                try
+                {
+                    Cache.Lock(metatile);
+                    return Cache.Get(tile) ?? RenderMetaTile(metatile, tile);
+                }
+                finally
+                {
+                    Cache.Unlock(metatile);
+                }
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(WatermarkImage))
+                    return Watermark(RenderTile(tile)).GetBytes();
+                return RenderTile(tile);
+            }
+        }
 
-		public Image Watermark(byte[] image)
-		{
-			throw new NotImplementedException();
-		}
+        public Image Watermark(byte[] image)
+        {
+            throw new NotImplementedException();
+        }
 
-		public Image Watermark(Image image)
-		{
-			throw new NotImplementedException();
-		}
+        public Image Watermark(Image image)
+        {
+            throw new NotImplementedException();
+        }
 
-		#region python
-		/*
+        #region python
+        /*
     def watermark (self, img):
         import StringIO, Image, ImageEnhance
         tileImage = Image.open( StringIO.StringIO(img) )
@@ -182,10 +185,10 @@ namespace GeoCache.Extensions.Base
         buffer.seek(0)
         return buffer.read()
 		 */
-		#endregion
+        #endregion
 
-		#region python
-		/*
+        #region python
+        /*
     def render (self, tile):
         if self.metaTile:
             metatile = self.getMetaTile(tile)
@@ -203,10 +206,10 @@ namespace GeoCache.Extensions.Base
             else:
                 return self.renderTile(tile)
 		*/
-		#endregion
+        #endregion
 
-		#region python
-		/*
+        #region python
+        /*
     def renderMetaTile (self, metatile, tile):
         import StringIO, Image
 
@@ -241,15 +244,15 @@ namespace GeoCache.Extensions.Base
 
         return tile.data
 		*/
-		#endregion
+        #endregion
 
-		#region python
-		/*
+        #region python
+        /*
     def getMetaTile (self, tile):
         x = int(tile.x / self.metaSize[0])
         y = int(tile.y / self.metaSize[1])
         return MetaTile(self, x, y, tile.z) 
 		*/
-		#endregion
-	}
+        #endregion
+    }
 }

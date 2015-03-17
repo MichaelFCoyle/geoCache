@@ -1,1 +1,0 @@
-﻿<%@ WebHandler Class="GeoCache.CacheHandler" %>
