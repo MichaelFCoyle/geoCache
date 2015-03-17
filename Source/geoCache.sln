@@ -34,6 +34,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "geoCache.Web", "geoCache.We
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "geoCache.Layers.Tms", "Extensions\geoCache.Layers.Tms\geoCache.Layers.Tms.csproj", "{99581B91-4606-4834-8632-84FA5942ABBD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "geoCache.Caches.Azure", "Extensions\geoCache.Caches.Azure\geoCache.Caches.Azure.csproj", "{49C3980C-E64D-448F-AF3B-C2DCE52B58B5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -84,6 +86,10 @@ Global
 		{99581B91-4606-4834-8632-84FA5942ABBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99581B91-4606-4834-8632-84FA5942ABBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{99581B91-4606-4834-8632-84FA5942ABBD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49C3980C-E64D-448F-AF3B-C2DCE52B58B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49C3980C-E64D-448F-AF3B-C2DCE52B58B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49C3980C-E64D-448F-AF3B-C2DCE52B58B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49C3980C-E64D-448F-AF3B-C2DCE52B58B5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -100,6 +106,7 @@ Global
 		{518F7D5F-86FF-4F7B-9DD0-C1819CC8163C} = {CF1CA67F-50F8-4921-A71A-13FFAFC5BED7}
 		{B92B6273-3DC1-47EC-97BE-79D5869411C1} = {D89CB21C-BF65-418D-841F-93FB7661773E}
 		{99581B91-4606-4834-8632-84FA5942ABBD} = {CF1CA67F-50F8-4921-A71A-13FFAFC5BED7}
+		{49C3980C-E64D-448F-AF3B-C2DCE52B58B5} = {CF1CA67F-50F8-4921-A71A-13FFAFC5BED7}
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = geoCache.vsmdi

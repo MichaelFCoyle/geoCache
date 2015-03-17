@@ -1,19 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
 using GeoCache.Core;
-using GeoCache.Core.Web;
-using GeoCache.Web;
 
 namespace GeoCache
 {
-    public class TMSHandler : IHttpHandler
+    public class TmsHandler : IHttpHandler
     {
-        static TMSHandler()
+        static TmsHandler()
         {
             Resolver.Current = new UnityAddInExtensionLoader();
         }
