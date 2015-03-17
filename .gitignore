@@ -51,6 +51,7 @@ Source/Extensions/geoCache.Extensions.Base/obj/*
 Source/Extensions/geoCache.Configuration.Test/obj/*
 Source/Extensions/geoCache.Layers.Wms.ImageResponseValidators/obj/*
 Source/Extensions/geoCache.Layers.Wms/obj/*
+Source/Extensions/geoCache.Caches/Disk/obj/*
 Source/geoCache.Demo/bin/*
 Source/geoCache.Demo/obj/*
 Source/geoCache.Web/bin/*
