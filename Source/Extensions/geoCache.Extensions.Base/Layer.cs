@@ -27,7 +27,7 @@ namespace GeoCache.Extensions.Base
         private string _extension = "png";
         private ExtentType _extentType = ExtentType.Loose;
         private string _layers = string.Empty;
-        private readonly int _levels;
+        protected int _levels;
         private Resolutions _resolutions;
         private string _srs = "EPSG:32633";
         private object _units = "m";

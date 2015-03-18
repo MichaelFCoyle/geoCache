@@ -5,14 +5,14 @@ using GeoCache.Core.Web;
 
 namespace GeoCache.Layers.Tms
 {
-    public class TmsService : IService
+    public class OsmService : IService
     {
-        public TmsService()
+        public OsmService()
         {
 
         }
 
-        public TmsService(ITileRenderer tileRenderer, ILayerContainer layerContainer)
+        public OsmService(ITileRenderer tileRenderer, ILayerContainer layerContainer)
         {
             TileRenderer = tileRenderer;
             LayerContainer = layerContainer;
@@ -31,9 +31,10 @@ namespace GeoCache.Layers.Tms
         {
             string l= param[2];
             int x, y, z;
-            Int32.TryParse(param[3], out x);
-            Int32.TryParse(param[4], out y);
-            Int32.TryParse(param[5], out z);
+            Int32.TryParse(param[3], out z);
+            Int32.TryParse(param[4], out x);
+
+            Int32.TryParse(param[5].Replace(".png",""), out y);
 
             Cell cell = new Cell(x, y, z);
 

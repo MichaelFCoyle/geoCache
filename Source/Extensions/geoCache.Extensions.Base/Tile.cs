@@ -79,10 +79,10 @@ namespace GeoCache.Extensions.Base
                 var res = Layer.Resolutions[Z];
                 return new BBox
                 {
-                    MinX = Layer.BBox.MinX + (res * Cell.X * Layer.Size.Width/*[0]*/),
-                    MinY = Layer.BBox.MinY + (res * Cell.Y * Layer.Size.Height/*[1]*/),
-                    MaxX = Layer.BBox.MinX + (res * (Cell.X + 1) * Layer.Size.Width/*[0]*/),
-                    MaxY = Layer.BBox.MinY + (res * (Cell.Y + 1) * Layer.Size.Height/*[1]*/)
+                    MinX = Layer.BBox.MinX + (res * Cell.X * Layer.Size.Width),         /*[0]*/
+                    MinY = Layer.BBox.MinY + (res * Cell.Y * Layer.Size.Height),        /*[1]*/
+                    MaxX = Layer.BBox.MinX + (res * (Cell.X + 1) * Layer.Size.Width),   /*[0]*/
+                    MaxY = Layer.BBox.MinY + (res * (Cell.Y + 1) * Layer.Size.Height)   /*[1]*/
                 };
             }
         }
@@ -98,5 +98,10 @@ namespace GeoCache.Extensions.Base
             get { return Bounds.ToString(); }
         }
         #endregion
+
+        public override string ToString()
+        {
+            return string.Format("Tile {0} ({1},{2})", this.Z, this.X, this.Y);
+        }
     }
 }

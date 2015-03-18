@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
 using GeoCache.Core;
 using GeoCache.Core.Web;
@@ -36,7 +31,7 @@ namespace GeoCache
         {
             try
             {
-                IService service = ObjectManager.GetService("tms", null);
+                IService service = ObjectManager.GetService("osm", null);
                 service.ProcessRequest(context);
             }
             catch (Exception ex)
