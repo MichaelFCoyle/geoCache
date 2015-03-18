@@ -32,7 +32,6 @@ namespace Seed
             string v = string.Format("{0}/{1}/{2}/{3}/{4}.png", Url, Name, tile.Z, tile.X, tile.Y);
             using (WebClient wc = new WebClient())
                 return wc.DownloadData(v);
-
         }
     }
 }

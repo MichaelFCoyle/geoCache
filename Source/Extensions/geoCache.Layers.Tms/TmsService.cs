@@ -25,7 +25,7 @@ namespace GeoCache.Layers.Tms
                 throw new InvalidDataException("Zero length data returned from layer.");
 
             TileRenderer.RenderTile(context.Response, GetMap(parts), false);
-        }
+      }
 
         ITile GetMap(string[] param)
         {
