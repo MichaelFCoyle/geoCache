@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net;
 using GeoCache.Extensions.Base;
 
 namespace GeoCache.Layers.Wms
@@ -104,21 +105,30 @@ namespace GeoCache.Layers.Wms
             int retryCount = 3;
             while (retryCount-- > 0)
             {
-                using (var client = new System.Net.WebClient())
+                var dataOk = true;
+                try
                 {
-                    client.Headers.Add("user-agent", "GeoCache");
-                    //throw new NotImplementedException(this._uri.ToString());
                     Trace.TraceInformation("WmsClient.Fetch: Fetching data from {0} ", _uri);
-                    var data = client.DownloadData(_uri);
-                    var dataOk = true;
-                    foreach (var validator in ObjectManager.GetResponseValidators())
+                    using (var client = new WebClient())
                     {
-                        if (!validator.Validate(data))
-                            dataOk = false;
+                        client.Headers.Add("user-agent", "GeoCache");
+                        var data = client.DownloadData(_uri);
+
+                        foreach (var validator in ObjectManager.GetResponseValidators())
+                        {
+                            if (!validator.Validate(data))
+                                dataOk = false;
+                        }
+
+                        if (dataOk)
+                            return data;
+                        else
+                            Trace.TraceWarning("Data failed to validate. Will retry {0} times.",retryCount );
                     }
-                    if (dataOk)
-                        return data;
-                    Trace.TraceWarning("Data failed to validate. Will retry " + retryCount + " times.");
+                }
+                catch(Exception ex)
+                {
+                    Trace.TraceError("Error retrieving data from url {0}:\r\n{1}", _uri, ex);
                 }
             }
             throw new Exception("Data failed to validate");

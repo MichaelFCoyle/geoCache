@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace geoCache.Demo {
+namespace GeoCache.Demo {
     
     
     public partial class _Default {

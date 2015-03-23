@@ -28,11 +28,9 @@
 
     <div id="map"></div> 
     <div id="text">
-        <h1 id="title">TrueNorth Geospatial</h1>
-
+        <h1 id="title">TrueNorth Geospatial Tile Server</h1>
         <div id="docs">
-            <p>This example uses CSS to define the dimensions of the map element in order to fill the screen.
-            When the user resizes the window, the map size changes correspondingly. No scroll bars!</p>
+            <p>This server caches data from GeoBC's WMS server. It contains the TRIM data set as well a roads, water, landmarks, and contour data</p>
         </div>
     </div>
 
@@ -56,17 +54,24 @@
 
         // create sphericalmercator layers
         var osmLayer = new OpenLayers.Layer.OSM("OpenStreetMap");
-        map.addLayer(osmLayer);
 
-        map.addLayer(new OpenLayers.Layer.WMS("GeoBC",
+        var options = {
+            attribution: {
+                title: "Provided by GeoBC",
+                href: "http://www.osgeo.org/"
+            }
+        };
+        var geoBC = new OpenLayers.Layer.WMS("GeoBC",
                         "/WMS?",
                         {
                             layers: 'geobc',
                             transparent: true,
                             format: 'image/png',
                             srs: "EPSG:900913"
-                        }
-            ));
+                        },
+                        {  attribution: "&copy; <a href='http://geobc.gov.bc.ca//'>GeoBC</a>" }
+            );
+        map.addLayers([osmLayer,geoBC]);
 
         var centerLL = new OpenLayers.LonLat(-123, 49.3);
         var centerM = centerLL.transform(new OpenLayers.Projection("EPSG:4326"), map.getProjectionObject());

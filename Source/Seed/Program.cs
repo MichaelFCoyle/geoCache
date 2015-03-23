@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Threading;
+using System.Threading.Tasks;
 using GeoCache.Core;
 using GeoCache.Extensions.Base;
 using Microsoft.WindowsAzure.Storage;
@@ -13,7 +14,6 @@ namespace Seed
 {
     class Program
     {
-        static Semaphore s;
         static OsmLayer osmLayer;
 
         /// <summary>
@@ -23,8 +23,6 @@ namespace Seed
         static void Main(string[] args)
         {
             ConnectionString = "DefaultEndpointsProtocol=https;AccountName=tntilecache;AccountKey=vskhSwFKN1z4hZ+LOowQbtruPLeaUZoRMoYfPYJstty+mnNbwZwEbi5T97jRUnWRFufPVE3GZPHsZaRFzUgooQ==";
-
-            s = new Semaphore(40, 40);
 
             osmLayer = new OsmLayer(20)
             {
@@ -40,24 +38,36 @@ namespace Seed
             osmLayer.Resolutions = osmLayer.BBox.GetResolutions(20, osmLayer.Size);
 
             int zoomStart = 1;
+            int zoomEnd = 18;
             int xStart = 0;
+            bool reverse = true;
 
-            for (int zoom = zoomStart; zoom < 18; zoom++)
+            if (reverse)
             {
-                int numTiles = (int)Math.Pow(2, zoom) - 1;
-
-                for (int x = xStart; x < numTiles; x++)
-                {
-                    for (int y = 0; y < numTiles; y++)
-                    {
-                        s.WaitOne();
-                        Tile t = new Tile(osmLayer, x, y, zoom);
-                        ThreadPool.QueueUserWorkItem(delegate { DoWork(t); });
-                    }
-                }
+                for (int zoom = zoomEnd; zoom >= zoomStart; zoom--)
+                    DoZoom(xStart, zoom);
             }
+            else
+            {
+                for (int zoom = zoomStart; zoom <= zoomEnd; zoom++)
+                    DoZoom(xStart, zoom);
+            }
+            Console.WriteLine("Completed");
+        }
 
-            Console.WriteLine("Completed {0} tiles", tileCount);
+        private static void DoZoom(int xStart, int zoom)
+        {
+            int numTiles = (int)Math.Pow(2, zoom) - 1;
+            Console.WriteLine("Zoom {0}, {1} tiles", zoom, numTiles);
+
+            for (int x = xStart; x < numTiles; x++)
+            {
+                Parallel.For(0, numTiles, y =>
+                {
+                    DoWork(new Tile(osmLayer, x, y, zoom));
+                });
+
+            }
         }
 
         public static void DoWork(ITile tile)
@@ -66,33 +76,37 @@ namespace Seed
             {
                 if (!osmLayer.MapBBox.Contains(tile.Bounds.MinX, tile.Bounds.MinY))
                     return;
-                Console.WriteLine("{0}", tile);
                 if (Exists(tile))
                     return;
 
-                Interlocked.Increment(ref tileCount);
-                Console.WriteLine("Retrieving {0}", tile.ToString());
-                
+                Console.WriteLine("Retrieve {0}", tile.ToString());
                 Uri uri = new Uri(string.Format("{0}/{1}/{2}/{3}/{4}.png", osmLayer.Url, osmLayer.Name, tile.Z, tile.X, tile.Y));
-
-                using (WebClient wc = new WebClient())
+                int retryCount = 3;
+                while (retryCount-- > 0)
                 {
-                    wc.DownloadDataCompleted += wc_DownloadDataCompleted;
-                    wc.DownloadDataAsync(uri, tile);
+                    try
+                    {
+                        using (WebClient wc = new WebClient())
+                            wc.DownloadData(uri);
+                        break;
+                    }
+                    catch (Exception ex)
+                    {
+                        Trace.TraceError("Error downloading {0} on try {1}\r\n{2}", uri, 3 - retryCount, ex);
+                    }
                 }
+                Console.WriteLine("Done {0}", tile.ToString());
             }
-            catch(Exception ex)
+            catch (ThreadAbortException)
+            {
+                Thread.ResetAbort();
+            }
+            catch (Exception ex)
             {
                 Trace.TraceError("Error on {0}:\r\n{1}", tile, ex);
                 Console.WriteLine("Error on {0}:\r\n{1}", tile, ex);
             }
-            finally
-            {
-                s.Release();
-            }
         }
-
-        static int tileCount = 0;
 
         static string ConnectionString { get; set; }
 

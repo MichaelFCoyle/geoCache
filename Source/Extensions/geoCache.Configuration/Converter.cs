@@ -133,7 +133,7 @@ namespace GeoCache.Configuration
 					Console.WriteLine("DEBUG: TryConvert failed to convert from {0} to {1}. Exception: {2}", from.GetType(), _toType, ex);
 				}
 #else
-				catch {Exception}
+				catch {}
 #endif
 				result = default(T);
 				return false;
