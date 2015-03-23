@@ -9,6 +9,7 @@ using GeoCache.Core;
 using GeoCache.Extensions.Base;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
+using System.Linq;
 
 namespace Seed
 {
@@ -22,6 +23,9 @@ namespace Seed
         /// <param name="args"></param>
         static void Main(string[] args)
         {
+
+            GetParameters(args);
+
             ConnectionString = "DefaultEndpointsProtocol=https;AccountName=tntilecache;AccountKey=vskhSwFKN1z4hZ+LOowQbtruPLeaUZoRMoYfPYJstty+mnNbwZwEbi5T97jRUnWRFufPVE3GZPHsZaRFzUgooQ==";
 
             osmLayer = new OsmLayer(20)
@@ -37,22 +41,49 @@ namespace Seed
 
             osmLayer.Resolutions = osmLayer.BBox.GetResolutions(20, osmLayer.Size);
 
-            int zoomStart = 1;
-            int zoomEnd = 18;
-            int xStart = 0;
-            bool reverse = true;
 
-            if (reverse)
+            if (m_reverse)
             {
-                for (int zoom = zoomEnd; zoom >= zoomStart; zoom--)
-                    DoZoom(xStart, zoom);
+                for (int zoom = m_zoomEnd; zoom >= m_zoomStart; zoom--)
+                    DoZoom(m_xStart, zoom);
             }
             else
             {
-                for (int zoom = zoomStart; zoom <= zoomEnd; zoom++)
-                    DoZoom(xStart, zoom);
+                for (int zoom = m_zoomStart; zoom <= m_zoomEnd; zoom++)
+                    DoZoom(m_xStart, zoom);
             }
             Console.WriteLine("Completed");
+        }
+
+        static int m_zoomStart = 1;
+        static int m_zoomEnd = 18;
+        static int m_xStart = 0;
+        static bool m_reverse = true;
+
+        private static void GetParameters(string[] args)
+        {
+            GetParam(args, "-start", out m_zoomStart, 1);
+            GetParam(args, "-end", out m_zoomEnd, 18);
+            GetParam(args, "-xstart", out m_xStart, 0);
+
+            string arf = args.FirstOrDefault(x => x.StartsWith("-reverse"));
+            if (!string.IsNullOrEmpty(arf))
+            {
+                string[] v = arf.Split('=');
+                Boolean.TryParse(v[1], out m_reverse);
+            }
+        }
+
+        private static void GetParam(string[] args, string tag, out int val, int def)
+        {
+            string arf = args.FirstOrDefault(x => x.StartsWith(tag));
+            if (string.IsNullOrEmpty(arf))
+            {
+                val = def;
+                return;
+            }
+            string[] v = arf.Split('=');
+            Int32.TryParse(v[1], out val);
         }
 
         private static void DoZoom(int xStart, int zoom)

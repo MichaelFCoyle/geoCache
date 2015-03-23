@@ -1,9 +1,7 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="GeoCache.Demo._Default" %>
-
-<!doctype html>
+﻿<!doctype html>
 
 <html lang="en">
-<head runat="server">
+<head >
     <meta charset="utf-8">
     <title>TrueNorth Geospatial Tile Server</title>
     <meta name="description" content="TrueNorth Geospatial Tile Server">
@@ -66,26 +64,39 @@
         // create sphericalmercator layers
         var osmLayer = new OpenLayers.Layer.OSM("OpenStreetMap");
 
-        var options = {
-            attribution: {
-                title: "Provided by GeoBC",
-                href: "http://www.osgeo.org/"
-            }
-        };
-        var geoBC = new OpenLayers.Layer.WMS("GeoBC",
-                        "/WMS?",
-                        {
-                            layers: 'geobc',
-                            transparent: true,
-                            format: 'image/png',
-                            srs: "EPSG:900913"
-                        },
-                        {
-                            attribution: "&copy; <a href='http://geobc.gov.bc.ca//'>GeoBC</a>",
-                            isBaseLayer: false
-                        }
+        var cached = new OpenLayers.Layer.TileCache("TileCache Layer",
+                ["https://tntilecache.blob.core.windows.net/geobc/"],
+                    "geobc",
+                    {
+                        serverResolutions: [
+                            0.298582142,
+                            0.59716428337097171575,
+                            1.194328567,
+                            2.388657133,
+                            4.777314267,
+                            9.554628534,
+                            19.109257068,
+                            38.218514136,
+                            76.437028271,
+                            152.874056543,
+                            305.748113086,
+                            611.496226172,
+                            1222.992452344,
+                            2445.984904688,
+                            4891.969809375,
+                            9783.939618750,
+                            19567.879237500,
+                            39135.758475000,
+                            78271.516950000,
+                            156543.033900000]
+                        //serverResolutions: [0.703125, 0.3515625, 0.17578125, 0.087890625,
+                        //                    0.0439453125, 0.02197265625, 0.010986328125,
+                        //                    0.0054931640625, 0.00274658203125, 0.001373291015625,
+                        //                    0.0006866455078125, 0.00034332275390625, 0.000171661376953125,
+                        //                    0.0000858306884765625, 0.00004291534423828125, 0.000021457672119140625]
+                    }
             );
-        map.addLayers([osmLayer,geoBC]);
+        map.addLayers([osmLayer, cached]);
 
         var centerLL = new OpenLayers.LonLat(-123, 49.3);
         var centerM = centerLL.transform(new OpenLayers.Projection("EPSG:4326"), map.getProjectionObject());

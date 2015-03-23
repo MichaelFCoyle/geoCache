@@ -67,6 +67,8 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="cached.html" />
+    <Content Include="index.html" />
     <Content Include="Default.aspx" />
     <Content Include="style.css" />
     <Content Include="Web.config">
