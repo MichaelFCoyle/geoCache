@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,7 +10,6 @@ using GeoCache.Core;
 using GeoCache.Extensions.Base;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
-using System.Linq;
 
 namespace Seed
 {
@@ -23,6 +23,21 @@ namespace Seed
         /// <param name="args"></param>
         static void Main(string[] args)
         {
+            if (args.Length > 0 && args[0].ToLower().StartsWith("-h"))
+            {
+                Console.Write(@"
+BlueToque TileCache Seed version {0}
+Usage: seed.exe [-start=#] [-end=#] [-xstart=#] [-parallel=#] [-reverse=true|false]
+where
+    -start:    start zoom level
+    -end:      end zoom level
+    -xstart:   the x tile to start at
+    -ystart:   the y stile to start at 
+    -parallel: the maximum degree of parallelism
+    -reverse:  reverse the iteration on zoom levels
+");
+                return;
+            }
 
             GetParameters(args);
 
@@ -58,13 +73,15 @@ namespace Seed
         static int m_zoomStart = 1;
         static int m_zoomEnd = 18;
         static int m_xStart = 0;
-        static bool m_reverse = true;
+        static bool m_reverse = false;
+        static int m_parallelism = 10;
 
         private static void GetParameters(string[] args)
         {
             GetParam(args, "-start", out m_zoomStart, 1);
             GetParam(args, "-end", out m_zoomEnd, 18);
             GetParam(args, "-xstart", out m_xStart, 0);
+            GetParam(args, "-parallel", out m_parallelism, 10);
 
             string arf = args.FirstOrDefault(x => x.StartsWith("-reverse"));
             if (!string.IsNullOrEmpty(arf))
@@ -76,7 +93,7 @@ namespace Seed
 
         private static void GetParam(string[] args, string tag, out int val, int def)
         {
-            string arf = args.FirstOrDefault(x => x.StartsWith(tag));
+            string arf = args.FirstOrDefault(x => x.ToLower().StartsWith(tag));
             if (string.IsNullOrEmpty(arf))
             {
                 val = def;
@@ -93,24 +110,30 @@ namespace Seed
 
             for (int x = xStart; x < numTiles; x++)
             {
-                Parallel.For(0, numTiles, y =>
-                {
-                    DoWork(new Tile(osmLayer, x, y, zoom));
-                });
+                Parallel.For(
+                    0,
+                    numTiles,
+                    new ParallelOptions { MaxDegreeOfParallelism = m_parallelism },
+                    y =>
+                    {
+                        DoWork(new Tile(osmLayer, x, y, zoom));
+                    });
 
             }
         }
 
+        static int m_threads = 0;
         public static void DoWork(ITile tile)
         {
             try
             {
+                Interlocked.Increment(ref m_threads);
                 if (!osmLayer.MapBBox.Contains(tile.Bounds.MinX, tile.Bounds.MinY))
                     return;
                 if (Exists(tile))
                     return;
 
-                Console.WriteLine("Retrieve {0}", tile.ToString());
+                Console.WriteLine("Threads {0}: Retrieve {1}", m_threads, tile.ToString());
                 Uri uri = new Uri(string.Format("{0}/{1}/{2}/{3}/{4}.png", osmLayer.Url, osmLayer.Name, tile.Z, tile.X, tile.Y));
                 int retryCount = 3;
                 while (retryCount-- > 0)
@@ -136,6 +159,10 @@ namespace Seed
             {
                 Trace.TraceError("Error on {0}:\r\n{1}", tile, ex);
                 Console.WriteLine("Error on {0}:\r\n{1}", tile, ex);
+            }
+            finally
+            {
+                Interlocked.Decrement(ref m_threads);
             }
         }
 
