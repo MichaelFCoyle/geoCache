@@ -23,6 +23,7 @@ namespace Seed
         /// <param name="args"></param>
         static void Main(string[] args)
         {
+            ServicePointManager.DefaultConnectionLimit = 1000;
             if (args.Length > 0 && args[0].ToLower().StartsWith("-h"))
             {
                 Console.Write(@"
@@ -146,10 +147,13 @@ where
                     }
                     catch (Exception ex)
                     {
-                        Trace.TraceError("Error downloading {0} on try {1}\r\n{2}", uri, 3 - retryCount, ex);
+                        Console.WriteLine("Error downloading {0} on try {1}\r\n{2}", uri, 3 - retryCount, ex.Message);
                     }
                 }
-                Console.WriteLine("Done {0}", tile.ToString());
+                if (retryCount == 0)
+                    Console.WriteLine("Failed {0}", tile.ToString());
+                else
+                    Console.WriteLine("Done {0}", tile.ToString());
             }
             catch (ThreadAbortException)
             {
