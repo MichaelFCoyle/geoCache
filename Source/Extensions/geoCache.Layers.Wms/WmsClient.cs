@@ -41,6 +41,7 @@ namespace GeoCache.Layers.Wms
 			{"version", "1.1.1"},
 			{"request", "GetMap"},
 			{"service", "WMS"},
+            {"tiled", "true"},
 		};
 
         Uri _uri;

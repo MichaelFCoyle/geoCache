@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("GeoCache.Caches.Disk")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Caches generated tiles on disk storage")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Blue Toque Software")]
 [assembly: AssemblyProduct("GeoCache")]

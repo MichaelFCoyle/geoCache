@@ -51,7 +51,6 @@ Source/Extensions/geoCache.Extensions.Base/obj/*
 Source/Extensions/geoCache.Configuration.Test/obj/*
 Source/Extensions/geoCache.Layers.Wms.ImageResponseValidators/obj/*
 Source/Extensions/geoCache.Layers.Wms/obj/*
-Source/Extensions/geoCache.Caches/Disk/obj/*
 Source/geoCache.Demo/bin/*
 Source/geoCache.Demo/obj/*
 Source/geoCache.Web/bin/*
@@ -65,3 +64,14 @@ Source/geoCache.Web/obj/*
 Source/Extensions/geoCache.Services.Wms/obj/*
 Assemblies/Debug/*
 Source/geoCache/obj/*
+Source/Extensions/geoCache.Caches.Azure/bin/*
+Source/Extensions/geoCache.Caches.Azure/obj/*
+Source/Extensions/geoCache.Caches.Disk/bin/*
+Source/Extensions/geoCache.Caches.Disk/obj/*
+Source/Extensions/geoCache.Extensions.Base/bin/*
+Source/Extensions/geoCache.Layers.Tms/bin/*
+Source/Extensions/geoCache.Layers.Tms/obj/*
+*.user
+Source/geoCache.Demo/geoCache.secure.cfg
+Source/Seed/bin/*
+Source/Seed/obj/*
