@@ -75,3 +75,5 @@ Source/Extensions/geoCache.Layers.Tms/obj/*
 Source/geoCache.Demo/geoCache.secure.cfg
 Source/Seed/bin/*
 Source/Seed/obj/*
+Source/Extensions/geoCache.Caches.Disk/obj/Debug/*
+Source/Extensions/geoCache.Caches.Disk/obj/Release/*
