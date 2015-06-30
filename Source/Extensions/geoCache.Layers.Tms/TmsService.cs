@@ -36,8 +36,8 @@ namespace GeoCache.Layers.Tms
 
             Int32.TryParse(param[5].Replace(".png",""), out y);
 
-            Cell cell = new Cell(x, y, z);
 
+            Cell cell = new Cell(x, y, z);
             //var bbox = new BBox(param["bbox"]);
             var layer = GetLayer(l);
             var tile = layer.GetTile(cell);
