@@ -31,6 +31,7 @@ namespace GeoCache.Caches.Disk
 			names.AddRange(base.GetFileNames(tile));
 			return names;
 		}
+
 		private static string GetQuadKeyFileName(ITile tile)
 		{
 			try

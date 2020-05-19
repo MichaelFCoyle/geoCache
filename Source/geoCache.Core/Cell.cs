@@ -27,42 +27,22 @@ namespace GeoCache.Core
         double _x, _y;
         int _z;
 
-        public double X { get { return _x; } set { _x = value; } }
+        public double X { get => _x; set => _x = value; }
 
-        public double Y { get { return _y; } set { _y = value; } }
+        public double Y { get => _y; set => _y = value; }
 
-        public int Z { get { return _z; } set { _z = value; } }
+        public int Z { get => _z; set => _z = value; }
 
-        public override string ToString()
-        {
-            return string.Format("Cell X={0} Y={1} Z={2}", X, Y, X);
-        }
+        public override string ToString() => string.Format("Cell X={0} Y={1} Z={2}", X, Y, X);
 
-        public override int GetHashCode()
-        {
-            return X.GetHashCode() ^ Y.GetHashCode() ^ Z;
-        }
+        public override int GetHashCode() => X.GetHashCode() ^ Y.GetHashCode() ^ Z;
 
-        public override bool Equals(object obj)
-        {
-            if (obj is Cell)
-                return Equals((Cell)obj);
-            return false;
-        }
+        public override bool Equals(object obj) => obj is Cell ? Equals((Cell)obj) : false;
 
-        public bool Equals(Cell other)
-        {
-            return other.X == X && other.Y == Y && other.Z == Z;
-        }
+        public bool Equals(Cell other) => other.X == X && other.Y == Y && other.Z == Z;
 
-        public static bool operator ==(Cell cell1, Cell cell2)
-        {
-            return cell1.Equals(cell2);
-        }
+        public static bool operator ==(Cell cell1, Cell cell2) => cell1.Equals(cell2);
 
-        public static bool operator !=(Cell cell1, Cell cell2)
-        {
-            return !cell1.Equals(cell2);
-        }
+        public static bool operator !=(Cell cell1, Cell cell2) => !cell1.Equals(cell2);
     }
 }

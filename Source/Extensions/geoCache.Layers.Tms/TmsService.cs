@@ -7,10 +7,7 @@ namespace GeoCache.Layers.Tms
 {
     public class OsmService : IService
     {
-        public OsmService()
-        {
-
-        }
+        public OsmService() { }
 
         public OsmService(ITileRenderer tileRenderer, ILayerContainer layerContainer)
         {
@@ -30,11 +27,9 @@ namespace GeoCache.Layers.Tms
         ITile GetMap(string[] param)
         {
             string l= param[2];
-            int x, y, z;
-            Int32.TryParse(param[3], out z);
-            Int32.TryParse(param[4], out x);
-
-            Int32.TryParse(param[5].Replace(".png",""), out y);
+            Int32.TryParse(param[3], out int z);
+            Int32.TryParse(param[4], out int x);
+            Int32.TryParse(param[5].Replace(".png",""), out int y);
 
 
             Cell cell = new Cell(x, y, z);

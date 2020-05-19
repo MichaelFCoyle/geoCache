@@ -8,16 +8,9 @@ namespace GeoCache.Caches.Azure
 {
     public class AzureCache : ICache
     {
-        public AzureCache()
-            : this("")
-        {
+        public AzureCache() : this("") { }
 
-        }
-
-        private AzureCache(string connectionString)
-        {
-            ConnectionString = connectionString;
-        }
+        private AzureCache(string connectionString) => ConnectionString = connectionString;
 
         public string ConnectionString { get; set; }
 
@@ -34,14 +27,9 @@ namespace GeoCache.Caches.Azure
             return data;
         }
 
-        public void Lock(ITile tile)
-        {
-        }
+        public void Lock(ITile tile) { }
 
-        public bool Lock(ITile tile, bool blocking)
-        {
-            return true;
-        }
+        public bool Lock(ITile tile, bool blocking) => true;
 
         public byte[] Get(ITile tile)
         {
@@ -62,14 +50,9 @@ namespace GeoCache.Caches.Azure
             }
         }
 
-        public void Unlock(ITile tile)
-        {
-        }
+        public void Unlock(ITile tile) { }
 
-        private string GetFileName(ITile tile)
-        {
-            return new XYFileName().GetFileNames(tile);
-        }
+        private string GetFileName(ITile tile) => new XYFileName().GetFileNames(tile);
 
         private CloudBlobContainer GetContainer(string containerName)
         {

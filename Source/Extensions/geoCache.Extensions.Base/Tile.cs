@@ -37,8 +37,7 @@ namespace GeoCache.Extensions.Base
             Cell = cell;
         }
 
-        public Tile(ILayer layer, double x, double y, int z)
-            : this(layer, new Cell(x, y, z)) { }
+        public Tile(ILayer layer, double x, double y, int z) : this(layer, new Cell(x, y, z)) { }
 
 
         #region properties
@@ -47,11 +46,11 @@ namespace GeoCache.Extensions.Base
 
         public Cell Cell { get; set; }
 
-        public double X { get { return Cell.X; } }
+        public double X => Cell.X;
 
-        public double Y { get { return Cell.Y; } }
+        public double Y => Cell.Y;
 
-        public int Z { get { return Cell.Z; } }
+        public int Z => Cell.Z;
 
         #region python
         /*
@@ -59,7 +58,7 @@ namespace GeoCache.Extensions.Base
 			return self.layer.size
 		 */
         #endregion
-        public virtual Size Size { get { return Layer.Size; } }
+        public virtual Size Size => Layer.Size;
 
         #region python
         /*
@@ -93,15 +92,9 @@ namespace GeoCache.Extensions.Base
 			return ",".join(map(str, self.bounds()))
 		 */
         #endregion
-        public string BBox
-        {
-            get { return Bounds.ToString(); }
-        }
+        public string BBox => Bounds.ToString();
         #endregion
 
-        public override string ToString()
-        {
-            return string.Format("Tile {0} ({1},{2})", this.Z, this.X, this.Y);
-        }
+        public override string ToString() => string.Format("Tile {0} ({1},{2})", Z, X, Y);
     }
 }

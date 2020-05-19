@@ -22,15 +22,16 @@ namespace GeoCache.Extensions.Base
     public abstract class Layer : ILayer
     {
         private IBBox _bBox = new BBox(-180, -90, 180, 90);
-        private IBBox _mapBBox = new BBox(-180, -90, 180, 90);
-        private bool _delayedLoading = true;
-        private string _extension = "png";
-        private ExtentType _extentType = ExtentType.Loose;
-        private string _layers = string.Empty;
+        private IBBox m_mapBBox = new BBox(-180, -90, 180, 90);
+        private bool m_delayedLoading = true;
+        private string m_extension = "png";
+        private ExtentType m_extentType = ExtentType.Loose;
+        private string m_layers = string.Empty;
         protected int _levels;
-        private Resolutions _resolutions;
-        private string _srs = "EPSG:32633";
-        private object _units = "m";
+        private Resolutions m_resolutions;
+        private string m_srs = "EPSG:32633";
+        private object m_units = "m";
+        private IBBox m_bBox;
 
         protected Layer()
         {
@@ -161,20 +162,12 @@ def __init__ (self, name, layers = None, bbox = (-180, -90, 180, 90),
          */
         #endregion
 
-        public string Layers
-        {
-            get { return _layers; }
-            set { _layers = value; }
-        }
+        public string Layers { get => m_layers; set => m_layers = value; }
 
         /// <summary>
         /// Transformation - EPSG:4326, EPSG:32633 etc.
         /// </summary>
-        public string Srs
-        {
-            get { return _srs; }
-            set { _srs = value; }
-        }
+        public string Srs { get => m_srs; set => m_srs = value; }
 
         public ICache Cache { get; set; }
 
@@ -189,21 +182,13 @@ def __init__ (self, name, layers = None, bbox = (-180, -90, 180, 90),
         /// </summary>
         public object TmsType { get; set; }
 
-        public object Units
-        {
-            get { return _units; }
-            set { _units = value; }
-        }
+        public object Units { get => m_units; set => m_units = value; }
 
         public double? MaxResolution { get; set; }
 
         public string Name { get; set; }
 
-        public IBBox BBox
-        {
-            get { return _bBox; }
-            set { _bBox = value; }
-        }
+        public IBBox BBox { get => m_bBox; set => _bBox = value; }
 
         public Size Size { get; set; }
 
@@ -211,65 +196,43 @@ def __init__ (self, name, layers = None, bbox = (-180, -90, 180, 90),
         {
             get
             {
-                if (_resolutions == null)
-                {
-                    _resolutions = (MaxResolution != null)
+                if (m_resolutions == null)
+                    m_resolutions = (MaxResolution != null)
                                     ? Resolutions.Get(_levels, (double)MaxResolution)
                                     : BBox.GetResolutions(_levels, Size);
-                }
-                return _resolutions;
+                return m_resolutions;
             }
-            set { _resolutions = value; }
+            set => m_resolutions = value;
         }
 
         public string Extension
         {
-            get { return _extension; }
+            get => m_extension;
             set
             {
                 if (string.IsNullOrEmpty(value))
                     throw new ArgumentNullException("value");
-                _extension = value.Equals("jpg", StringComparison.OrdinalIgnoreCase) ? "jpeg" : value.ToLower();
+                m_extension = value.Equals("jpg", StringComparison.OrdinalIgnoreCase) ? "jpeg" : value.ToLower();
             }
         }
 
-        public ExtentType ExtentType
-        {
-            get { return _extentType; }
-            set { _extentType = value; }
-        }
+        public ExtentType ExtentType { get => m_extentType; set => m_extentType = value; }
 
         public string ContentType { get; set; }
 
         public Size MetaBuffer { get; set; }
 
-        public bool DelayedLoading
-        {
-            get { return _delayedLoading; }
-            set { _delayedLoading = value; }
-        }
+        public bool DelayedLoading { get => m_delayedLoading; set => m_delayedLoading = value; }
 
         #endregion
 
-        public ITile GetTile(IBBox bbox)
-        {
-            return new Tile(this, GetCell(bbox));
-        }
+        public ITile GetTile(IBBox bbox) => new Tile(this, GetCell(bbox));
 
-        public ITile GetTile(Cell cell)
-        {
-            return new Tile(this, cell);
-        }
+        public ITile GetTile(Cell cell) => new Tile(this, cell);
 
-        public string Format
-        {
-            get { return "image/" + Extension; }
-        }
+        public string Format => "image/" + Extension;
 
-        public virtual byte[] Render(ITile tile)
-        {
-            return RenderTile(tile);
-        }
+        public virtual byte[] Render(ITile tile) => RenderTile(tile);
 
         public abstract Size GetMetaSize(int z);
 
@@ -277,11 +240,7 @@ def __init__ (self, name, layers = None, bbox = (-180, -90, 180, 90),
         /// The bounding box where there is data
         /// This can be used to "reject" a request without caching or processing it
         /// </summary>
-        public IBBox MapBBox
-        {
-            get { return _mapBBox; }
-            set { _mapBBox = value; }
-        }
+        public IBBox MapBBox { get => m_mapBBox; set => m_mapBBox = value; }
 
         #region python
         /*
@@ -316,10 +275,7 @@ def __init__ (self, name, layers = None, bbox = (-180, -90, 180, 90),
 		 */
         #endregion
 
-        public int GetLevel(double res)
-        {
-            return GetLevel(res, new Size(256, 256));
-        }
+        public int GetLevel(double res) => GetLevel(res, new Size(256, 256));
 
         public int GetLevel(double res, Size size)
         {
@@ -335,15 +291,9 @@ def __init__ (self, name, layers = None, bbox = (-180, -90, 180, 90),
             throw new Exception(string.Format("can't find resolution index for {0}. Available resolutions are: \n{1}", res, Resolutions));
         }
 
-        public Cell GetCell(IBBox bbox)
-        {
-            return GetCell(bbox, true);
-        }
+        public Cell GetCell(IBBox bbox) => GetCell(bbox, true);
 
-        private Cell GetCell(double minX, double minY, double maxX, double maxY, bool exact)
-        {
-            return GetCell(new BBox(minX, minY, maxX, maxY), exact);
-        }
+        private Cell GetCell(double minX, double minY, double maxX, double maxY, bool exact) => GetCell(new BBox(minX, minY, maxX, maxY), exact);
 
         public Cell GetCell(IBBox bbox, bool exact)
         {

@@ -114,10 +114,8 @@ namespace GeoCache.Configuration
 			while (IsWhiteSpace(reader.Peek()))
 				reader.Read();
 		}
-		static bool IsWhiteSpace(int character)
-		{
-			return character == '\t' || character == ' ';
-		}
+
+		static bool IsWhiteSpace(int character) => character == '\t' || character == ' ';
 
 		#region Nested type: TileCacheConfigHelper
 		private class TileCacheConfigHelper
@@ -145,14 +143,10 @@ namespace GeoCache.Configuration
 				writer.WriteLine();
 			}
 
-
 			public static void ConfigureLayer(ILayer layer, IDictionary<string, object> properties)
 			{
-				if (layer == null)
-					throw new ArgumentNullException("layer");
-				if (properties == null)
-					throw new ArgumentNullException("properties");
-
+				if (layer == null) throw new ArgumentNullException("layer");
+				if (properties == null) throw new ArgumentNullException("properties");
 				new PropertyHelper(layer).SetProperties(properties);
 			}
 		}

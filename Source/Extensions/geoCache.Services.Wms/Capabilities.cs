@@ -28,21 +28,15 @@ namespace GeoCache.Services.Wms
 			self.data   = data
 		 */
         #endregion
-        public Capabilities(string format, string data)
-            : this(format)
-        {
-            Data = data;
-        }
+        public Capabilities(string format, string data) : this(format) => Data = data;
+
         public Capabilities(string format, byte[] data)
         {
             Format = format;
             Data = data;
         }
 
-        private Capabilities(string format)
-        {
-            Format = format;
-        }
+        private Capabilities(string format) => Format = format;
 
     }
 }

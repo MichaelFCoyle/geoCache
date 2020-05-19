@@ -20,16 +20,10 @@ namespace GeoCache.Configuration
 {
 	public class PropertyHelper
 	{
-		private readonly object _obj;
-		private Type _type;
+		private readonly object m_obj;
+		private Type m_type;
 
-		public PropertyHelper(object obj)
-		{
-			if (obj == null)
-				throw new ArgumentNullException("obj");
-
-			_obj = obj;
-		}
+		public PropertyHelper(object obj) => m_obj = obj ?? throw new ArgumentNullException("obj");
 
 		public IDictionary<string, object> GetProperties(IEnumerable<string> propertyNames)
 		{
@@ -42,7 +36,7 @@ namespace GeoCache.Configuration
 				PropertyInfo propertyInfo = GetPropertyInfo(propertyName);
 				if (propertyInfo == null)
 					continue;
-				dictionary.Add(propertyName, propertyInfo.GetValue(_obj, null));
+				dictionary.Add(propertyName, propertyInfo.GetValue(m_obj, null));
 			}
 			return dictionary;
 		}
@@ -50,9 +44,7 @@ namespace GeoCache.Configuration
 		public void SetProperties(IDictionary<string, object> properties)
 		{
 			foreach (var keyValue in properties)
-			{
 				SetProperty(keyValue.Key, keyValue.Value);
-			}
 		}
 
 		internal void SetProperty(string name, object value)
@@ -68,11 +60,10 @@ namespace GeoCache.Configuration
 
 			if (value != null && propertyType != value.GetType())
 			{
-				object convertedValue;
-				if (Converter.TryConvert(propertyType, value, out convertedValue))
+				if (Converter.TryConvert(propertyType, value, out object convertedValue))
 					value = convertedValue;
 			}
-			propertyInfo.SetValue(_obj, value, null);
+			propertyInfo.SetValue(m_obj, value, null);
 		}
 
 		public void WriteProperty(string propertyName, TextWriter writer)
@@ -82,21 +73,21 @@ namespace GeoCache.Configuration
 				return;
 
 			writer.Write(propertyName + "=");
-			object propertyValue = propertyInfo.GetValue(_obj, null);
+			object propertyValue = propertyInfo.GetValue(m_obj, null);
 			writer.WriteLine(propertyValue);
 		}
 
 		private PropertyInfo GetPropertyInfo(string propertyName)
 		{
-			if (_type == null)
-				_type = _obj.GetType();
+			if (m_type == null)
+				m_type = m_obj.GetType();
 			
-			MemberInfo[] members = _type.GetMember(propertyName);
+			MemberInfo[] members = m_type.GetMember(propertyName);
 			if (members != null && members.Length != 0)
 				return members[0] as PropertyInfo;
 
 			//Could not find exact match - Try a case-insensitive search
-			foreach (var member in _type.GetProperties())
+			foreach (var member in m_type.GetProperties())
 				if (string.Equals(member.Name, propertyName, StringComparison.OrdinalIgnoreCase))
 					return member;
 			

@@ -19,10 +19,7 @@ namespace GeoCache.Extensions.Base
 {
 	public class MetaTile : Tile
 	{
-		public MetaTile(Layer layer, int x, int y, int z)
-			: base(layer, x, y, z)
-		{
-		}
+		public MetaTile(Layer layer, int x, int y, int z) : base(layer, x, y, z) { }
 
 		#region python
 		/*

@@ -19,13 +19,10 @@ namespace GeoCache.Caches.Disk
 {
 	internal class XYFileName
 	{
-		public virtual IEnumerable<string> GetFileNames(ITile tile)
-		{
-			return new[] { GetTileCacheFileName(tile) };
-		}
+        public virtual IEnumerable<string> GetFileNames(ITile tile) => new[] { GetTileCacheFileName(tile) };
 
-		#region python - getKey
-		/*
+        #region python - getKey
+        /*
     def getKey (self, tile):
         components = ( self.basedir,
                        tile.layer.name,
@@ -40,9 +37,9 @@ namespace GeoCache.Caches.Disk
         filename = os.path.join( *components )
         return filename
         */
-		#endregion
+        #endregion
 
-		private static string GetTileCacheFileName(ITile tile)
+        private static string GetTileCacheFileName(ITile tile)
 		{
 			return string.Join("/", new[]
         	{

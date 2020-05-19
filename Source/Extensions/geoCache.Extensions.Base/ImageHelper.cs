@@ -11,32 +11,39 @@
 // Licensed under the terms of the GNU Lesser General Public License
 // (http://www.opensource.org/licenses/lgpl-license.php)
 
-using System;
 using System.Drawing;
+using System.IO;
 
 namespace GeoCache.Extensions.Base
 {
 	internal static class ImageHelper
 	{
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "bytes")]
-		[Obsolete("NotImplemented")]
 		public static Image Open(byte[] bytes)
 		{
-			throw new NotImplementedException();
+			using (MemoryStream ms = new MemoryStream(bytes))
+				return Image.FromStream(ms);
 		}
 
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "self"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "minY"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "minX"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "maxY"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "maxX")]
-		[Obsolete("NotImplemented")]
-		public static Image Crop(this Image self, int minX, int minY, int maxX, int maxY)
+		public static Image Crop(this Image src, int minX, int minY, int maxX, int maxY) =>
+			Crop(src, Rectangle.FromLTRB(minX, minY, maxX, maxY));
+
+		public static Image Crop(this Image src, Rectangle cropRect)
 		{
-			throw new NotImplementedException();
+			Bitmap target = new Bitmap(cropRect.Width, cropRect.Height);
+
+			using (Graphics g = Graphics.FromImage(target))
+				g.DrawImage(src, new Rectangle(0, 0, target.Width, target.Height), cropRect, GraphicsUnit.Pixel);
+
+			return target;
 		}
 
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "self")]
-		[Obsolete("NotImplemented")]
-		public static byte[] GetBytes(this Image self)
+		public static byte[] GetBytes(this Image image)
 		{
-			throw new NotImplementedException();
+			using (var ms = new MemoryStream())
+			{
+				image.Save(ms, image.RawFormat);
+				return ms.ToArray();
+			}
 		}
 	}
 }

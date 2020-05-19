@@ -19,13 +19,10 @@ namespace GeoCache.Caches.Azure
 {
 	internal class XYFileName
 	{
-		public virtual string GetFileNames(ITile tile)
-		{
-            return XYFileName.GetTileCacheFileName(tile);
-		}
+        public virtual string GetFileNames(ITile tile) => XYFileName.GetTileCacheFileName(tile);
 
-		#region python - getKey
-		/*
+        #region python - getKey
+        /*
     def getKey (self, tile):
         components = ( self.basedir,
                        tile.layer.name,
@@ -40,9 +37,9 @@ namespace GeoCache.Caches.Azure
         filename = os.path.join( *components )
         return filename
         */
-		#endregion
+        #endregion
 
-		private static string GetTileCacheFileName(ITile tile)
+        private static string GetTileCacheFileName(ITile tile)
 		{
 			return string.Join("/", new[]
         	{

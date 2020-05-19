@@ -18,14 +18,8 @@ namespace GeoCache.Layers.Wms
 {
 	static class ObjectManager
 	{
-		internal static IEnumerable<IResponseValidator> GetResponseValidators()
-		{
-			return Resolver.Current.ResolveAll<IResponseValidator>();
-		}
+		internal static IEnumerable<IResponseValidator> GetResponseValidators() => Resolver.Current.ResolveAll<IResponseValidator>();
 
-		internal static IEnumerable<UriInterceptor> GetUriInterceptors()
-		{
-			return Resolver.Current.ResolveAll<UriInterceptor>();
-		}
+		internal static IEnumerable<UriInterceptor> GetUriInterceptors() => Resolver.Current.ResolveAll<UriInterceptor>();
 	}
 }

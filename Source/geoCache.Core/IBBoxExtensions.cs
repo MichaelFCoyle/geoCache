@@ -27,6 +27,7 @@ namespace GeoCache.Core
                     (maxy - miny) / self.size[1] )
 			 */
 		#endregion
+
 		public static double GetResolution(this IBBox self, Size size)
         {
 			var resX = (self.MaxX - self.MinX) / size.Width;
@@ -36,15 +37,15 @@ namespace GeoCache.Core
 
         public static Resolutions GetResolutions(this IBBox self, int levels, Size size)
         {
-            var width = self.Width();
-            var height = self.Height();
+            var width = self.Width;
+            var height = self.Height;
             var aspect = self.GetAspect();
 
             double maxResolution = (width >= height)
                 ? width / (size.Width/*[0]*/ * aspect)
                 : width / (size.Height/*[1]*/ * aspect);
 
-            return GeoCache.Core.Resolutions.Get(levels, maxResolution);
+            return Resolutions.Get(levels, maxResolution);
         }
     }
 }

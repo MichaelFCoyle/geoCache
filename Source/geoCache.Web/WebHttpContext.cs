@@ -18,15 +18,12 @@ namespace GeoCache.Web
 {
     public class WebHttpContext : IHttpContext
     {
-        public WebHttpContext(HttpContext context)
-        {
-            _context = context;
-        }
+        public WebHttpContext(HttpContext context) => m_context = context;
 
-        readonly HttpContext _context;
+        readonly HttpContext m_context;
 
-        public IHttpRequest Request { get { return new WebHttpRequest(_context.Request); } }
+        public IHttpRequest Request => new WebHttpRequest(m_context.Request);
 
-        public IHttpResponse Response { get { return new WebHttpResponse(_context.Response); } }
+        public IHttpResponse Response => new WebHttpResponse(m_context.Response);
     }
 }

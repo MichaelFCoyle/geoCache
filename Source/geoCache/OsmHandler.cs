@@ -16,15 +16,11 @@ namespace GeoCache
         }
 
         #region IHttpHandler Members
-        public void ProcessRequest(HttpContext context)
-        {
-            ProcessRequest(new WebHttpContext(context));
-        }
 
-        public bool IsReusable
-        {
-            get { return false; }
-        }
+        public void ProcessRequest(HttpContext context) => ProcessRequest(new WebHttpContext(context));
+
+        public bool IsReusable => false;
+        
         #endregion
 
         public void ProcessRequest(IHttpContext context)

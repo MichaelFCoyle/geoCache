@@ -37,32 +37,27 @@ namespace GeoCache.Configuration
 			return (bool)r;
 		}
 
-		public static bool TryConvert<T>(object from, out T result)
-		{
-			return new ConvertHelper<T>().TryConvert(from, out result);
-		}
+		public static bool TryConvert<T>(object from, out T result) => new ConvertHelper<T>().TryConvert(from, out result);
 
 		//This method is used by [public static bool TryConvert(Type toType, object from, out object result)]
 		//ReSharper disable UnusedPrivateMember
-		private static bool MyTryConvert<T>(object from, out T result)
-		{
-			return TryConvert(from, out result);
-		}
+		private static bool MyTryConvert<T>(object from, out T result) => TryConvert(from, out result);
+		
 		// ReSharper restore UnusedPrivateMember
 
 		#region Nested type: ConvertHelper
 		private class ConvertHelper<T>
 		{
-			private static Type _resolvedToType;
-			private static readonly Type _toType;
+			private static Type m_resolvedToType;
+			private static readonly Type m_toType;
 
 			static ConvertHelper()
 			{
-				_toType = typeof (T);
-				if (_toType.IsGenericType && _toType.GetGenericTypeDefinition().Equals(typeof(Nullable<>)))
+				m_toType = typeof (T);
+				if (m_toType.IsGenericType && m_toType.GetGenericTypeDefinition().Equals(typeof(Nullable<>)))
 				{
-					var nc = new NullableConverter(_toType);
-					_toType = nc.UnderlyingType;
+					var nc = new NullableConverter(m_toType);
+					m_toType = nc.UnderlyingType;
 				}
 			}
 
@@ -76,27 +71,25 @@ namespace GeoCache.Configuration
 
 				try
 				{
-					if (_resolvedToType != null)
+					if (m_resolvedToType != null)
 					{
 						return TryConvertResolvedTo(from, out result);
 					}
 
 					TypeConverter fromConverter = TypeDescriptor.GetConverter(from);
-					if (fromConverter.CanConvertTo(_toType))
+					if (fromConverter.CanConvertTo(m_toType))
 					{
-						result = (T)fromConverter.ConvertTo(from, _toType);
+						result = (T)fromConverter.ConvertTo(from, m_toType);
 						return true;
 					}
 
 					//Use TryConvert for misc types when fromType is string:
 					if (from is string)
 					{
-						if (_toType == typeof(double))
+						if (m_toType == typeof(double))
 						{
-							double d;
-							var numberStyle = NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingWhite |
-							                  NumberStyles.AllowTrailingWhite;
-							if (double.TryParse((string)from, numberStyle, CultureInfo.InvariantCulture, out d))
+							var numberStyle = NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingWhite | NumberStyles.AllowTrailingWhite;
+							if (double.TryParse((string)from, numberStyle, CultureInfo.InvariantCulture, out double d))
 							{
 								result = (T)(object)d;
 								return true;
@@ -105,7 +98,7 @@ namespace GeoCache.Configuration
 					}
 
 					Type fromType = from.GetType();
-					TypeConverter toConverter = TypeDescriptor.GetConverter(_toType);
+					TypeConverter toConverter = TypeDescriptor.GetConverter(m_toType);
 					if (toConverter.CanConvertFrom(fromType))
 					{
 						result = (T)toConverter.ConvertFrom(from);
@@ -122,7 +115,7 @@ namespace GeoCache.Configuration
 						object o = Resolver.Resolve<T>(null, null);
 						if (o == null)
 							throw;
-						_resolvedToType = o.GetType();
+						m_resolvedToType = o.GetType();
 						return TryConvertResolvedTo(from, out result);
 					}
 					return true;
@@ -130,7 +123,7 @@ namespace GeoCache.Configuration
 #if DEBUG
 				catch (Exception ex)
 				{
-					Console.WriteLine("DEBUG: TryConvert failed to convert from {0} to {1}. Exception: {2}", from.GetType(), _toType, ex);
+					Console.WriteLine("DEBUG: TryConvert failed to convert from {0} to {1}. Exception: {2}", from.GetType(), m_toType, ex);
 				}
 #else
 				catch {}
@@ -141,14 +134,14 @@ namespace GeoCache.Configuration
 
 			private static bool TryConvertResolvedTo(object from, out T result)
 			{
-				if (_resolvedToType == null)
+				if (m_resolvedToType == null)
 				{
 					result = default(T);
 					return false;
 				}
 
 				object o;
-				if (Converter.TryConvert(_resolvedToType, from, out o))
+				if (Converter.TryConvert(m_resolvedToType, from, out o))
 				{
 					result = (T)o;
 					return true;
@@ -160,18 +153,18 @@ namespace GeoCache.Configuration
 			//Portions of this function is copied from http://blogs.msdn.com/jongallant/archive/2006/06/19/637023.aspx
 			private static T ConvertTo(object value)
 			{
-				if (_toType.IsEnum) // if enum use parse
-					return (T)Enum.Parse(_toType, value.ToString(), false);
+				if (m_toType.IsEnum) // if enum use parse
+					return (T)Enum.Parse(m_toType, value.ToString(), false);
 
 				// if we have a custom type converter then use it
-				TypeConverter td = TypeDescriptor.GetConverter(_toType);
+				TypeConverter td = TypeDescriptor.GetConverter(m_toType);
 				if (td.CanConvertFrom(value.GetType()))
 				{
 					return (T)td.ConvertFrom(value);
 				}
 
 				// otherwise use the changetype
-				return (T)Convert.ChangeType(value, _toType);
+				return (T)Convert.ChangeType(value, m_toType);
 			}
 		}
 		#endregion

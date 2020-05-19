@@ -12,13 +12,12 @@
 // Licensed under the terms of the GNU Lesser General Public License
 // (http://www.opensource.org/licenses/lgpl-license.php)
 
+using GeoCache.Core;
+using GeoCache.Core.Web;
 using System;
 using System.Configuration;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
-using GeoCache.Core;
-using GeoCache.Core.Web;
 
 namespace GeoCache
 {
@@ -130,10 +129,7 @@ namespace GeoCache
             return string.IsNullOrEmpty(value) ? defaultValue : value;
         }
 
-        protected virtual bool AbortIfTileNotInCache(IHttpResponse response, ITile tile)
-        {
-            return false;
-        }
+        protected virtual bool AbortIfTileNotInCache(IHttpResponse response, ITile tile) => false;
 
     }
 }

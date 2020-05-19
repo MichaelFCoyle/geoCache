@@ -20,9 +20,7 @@ namespace GeoCache.Core
 	[TypeConverter(typeof (BBoxConverter))]
 	public class BBox : IBBox
 	{
-		public BBox()
-		{
-		}
+		public BBox() { }
 
 		public BBox(string parseFrom)
 		{
@@ -92,30 +90,20 @@ namespace GeoCache.Core
 		/// <summary>MaxY = North</summary>
 		public double MaxY { get; set; }
 
-		public double Width()
-		{
-			return MaxX - MinX;
-		}
+		public double Width => MaxX - MinX;
 
-		public double Height()
-		{
-			return MaxY - MinY;
-		}
+		public double Height => MaxY - MinY;
 
 		public int GetAspect()
 		{
-			double width = /*Math.Abs*/ (Width());
-			double height = /*Math.Abs*/ (Height());
+			double width = /*Math.Abs*/ (Width);
+			double height = /*Math.Abs*/ (Height);
 			return (width >= height)
 			       	? (int) ((width / height) + .5) //Round up
 			       	: (int) ((height / width) + .5); //Round up
 		}
 
-		public bool Contains(double x, double y)
-		{
-			return x >= MinX && x <= MaxX
-			       && y >= MinY && y <= MaxY;
-		}
+		public bool Contains(double x, double y) => x >= MinX && x <= MaxX && y >= MinY && y <= MaxY;
 		#endregion
 
 		public override string ToString()

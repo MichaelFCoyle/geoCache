@@ -21,16 +21,9 @@ namespace GeoCache.Core
 	{
 		public static IResolver Current { get; set; }
 
-		public static T Resolve<T>(string id, IDictionary<string, object> config)
-		{
-			return Current.Resolve<T>(id, config);
-		}
+		public static T Resolve<T>(string id, IDictionary<string, object> config) => Current.Resolve<T>(id, config);
 
-		public static IEnumerable<T> ResolveAll<T>()
-		{
-			return Current.ResolveAll<T>();
-		}
-
+		public static IEnumerable<T> ResolveAll<T>() => Current.ResolveAll<T>();
 
 		private static readonly MethodInfo _resolveMethod 
 			= typeof(Resolver).GetMethod("Resolve", new Type[] { typeof(string), typeof(IDictionary<string, object>) });

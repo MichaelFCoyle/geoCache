@@ -46,18 +46,11 @@ namespace GeoCache.Extensions.Base
 		*/
         #endregion
 
-        protected MetaLayer()
-            : this(string.Empty)
-        {
-        }
+        protected MetaLayer() : this(string.Empty) { }
 
-        protected MetaLayer(string name)
-            : this(name, false, new Size(5, 5), new Size(10, 10))
-        {
-        }
+        protected MetaLayer(string name) : this(name, false, new Size(5, 5), new Size(10, 10)) { }
 
-        protected MetaLayer(string name, bool metaTile, Size metaSize, Size metaBuffer)
-            : base(name)
+        protected MetaLayer(string name, bool metaTile, Size metaSize, Size metaBuffer) : base(name)
         {
             MetaTile = metaTile;
             MetaSize = metaSize;
@@ -80,11 +73,11 @@ namespace GeoCache.Extensions.Base
                 return new Size(1, 1);
             SizeD size = Grid(z);
             return new Size
-                    {
-                        //TODO: Verify python-conversion...
-                        Width = Math.Min(MetaSize.Width, Convert.ToInt32(size.Width + 1)),
-                        Height = Math.Min(MetaSize.Height, Convert.ToInt32(size.Height + 1))
-                    };
+            {
+                //TODO: Verify python-conversion...
+                Width = Math.Min(MetaSize.Width, Convert.ToInt32(size.Width + 1)),
+                Height = Math.Min(MetaSize.Height, Convert.ToInt32(size.Height + 1))
+            };
         }
 
         public MetaTile GetMetaTile(ITile tile)

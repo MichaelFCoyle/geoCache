@@ -40,10 +40,7 @@ namespace GeoCache.Caches.Disk
             self.makedirs(base)
         */
 		#endregion
-		public DiskCache()
-			: this("/tmp", "002")
-		{
-		}
+		public DiskCache() : this("/tmp", "002") { }
 
 		private DiskCache(string baseDir, string umask)
 		{
@@ -63,10 +60,7 @@ namespace GeoCache.Caches.Disk
         os.umask(old_umask)
         */
 		#endregion
-		private static void MakeDirs(string path)
-		{
-			Directory.CreateDirectory(path);
-		}
+		private static void MakeDirs(string path) => Directory.CreateDirectory(path);
 
 		#region python - access
 		/*
@@ -88,23 +82,17 @@ namespace GeoCache.Caches.Disk
 		{
 			switch (accessType)
 			{
-				case AccessType.Read:
-					return File.Exists(path);
-				case AccessType.Write:
-					return Directory.Exists(path);
-				default:
-					throw new ArgumentOutOfRangeException("accessType");
+				case AccessType.Read: return File.Exists(path);
+				case AccessType.Write: return Directory.Exists(path);
+				default: throw new ArgumentOutOfRangeException("accessType");
 			}
 		}
 
 		public override string GetKey(ITile tile)
 		{
-			if (tile == null)
-				throw new ArgumentNullException("tile");
-			if (tile.Layer == null)
-				throw new ArgumentNullException("tile.Layer");
-			if (string.IsNullOrEmpty(tile.Layer.Name))
-				throw new ArgumentNullException("tile.Layer.Name");
+			if (tile == null) throw new ArgumentNullException("tile");
+			if (tile.Layer == null) throw new ArgumentNullException("tile.Layer");
+			if (string.IsNullOrEmpty(tile.Layer.Name)) throw new ArgumentNullException("tile.Layer.Name");
 
 			//Return filename with highest priority.
 			foreach (var name in GetFileNames(tile))
@@ -112,13 +100,14 @@ namespace GeoCache.Caches.Disk
 			throw new InvalidOperationException("DiskCache was unable to get a valid file-name.");
 		}
 
-		private XYFileName _fileNameProvider;
+		private XYFileName m_fileNameProvider;
+
 		private IEnumerable<string> GetFileNames(ITile tile)
 		{
-			if (_fileNameProvider == null)
-				_fileNameProvider = UseQuadKey ? new QuadKeyFileName() : new XYFileName();
+			if (m_fileNameProvider == null)
+				m_fileNameProvider = UseQuadKey ? new QuadKeyFileName() : new XYFileName();
 			
-			return _fileNameProvider.GetFileNames(tile);
+			return m_fileNameProvider.GetFileNames(tile);
 		}
 
 		public bool UseQuadKey { get; set; }

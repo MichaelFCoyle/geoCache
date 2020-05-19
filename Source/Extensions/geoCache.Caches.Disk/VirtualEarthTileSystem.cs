@@ -27,12 +27,7 @@ namespace Microsoft.MapPoint
         /// <param name="minValue">Minimum allowable value.</param>
         /// <param name="maxValue">Maximum allowable value.</param>
         /// <returns>The clipped value.</returns>
-        private static double Clip(double n, double minValue, double maxValue)
-        {
-            return Math.Min(Math.Max(n, minValue), maxValue);
-        }
-        
-        
+        private static double Clip(double n, double minValue, double maxValue) => Math.Min(Math.Max(n, minValue), maxValue);
 
         /// <summary>
         /// Determines the map width and height (in pixels) at a specified level
@@ -41,12 +36,7 @@ namespace Microsoft.MapPoint
         /// <param name="levelOfDetail">Level of detail, from 1 (lowest detail)
         /// to 23 (highest detail).</param>
         /// <returns>The map width and height in pixels.</returns>
-        public static uint MapSize(int levelOfDetail)
-        {
-            return (uint) 256 << levelOfDetail;
-        }
-
-
+        public static uint MapSize(int levelOfDetail) => (uint)256 << levelOfDetail;
 
         /// <summary>
         /// Determines the ground resolution (in meters per pixel) at a specified
@@ -64,8 +54,6 @@ namespace Microsoft.MapPoint
                 MapSize(levelOfDetail);
         }
 
-
-
         /// <summary>
         /// Determines the map scale at a specified latitude, level of detail,
         /// and screen resolution.
@@ -76,12 +64,7 @@ namespace Microsoft.MapPoint
         /// to 23 (highest detail).</param>
         /// <param name="screenDpi">Resolution of the screen, in dots per inch.</param>
         /// <returns>The map scale, expressed as the denominator N of the ratio 1 : N.</returns>
-        public static double MapScale(double latitude, int levelOfDetail, int screenDpi)
-        {
-            return GroundResolution(latitude, levelOfDetail) * screenDpi / 0.0254;
-        }
-
-
+        public static double MapScale(double latitude, int levelOfDetail, int screenDpi) => GroundResolution(latitude, levelOfDetail) * screenDpi / 0.0254;
 
         /// <summary>
         /// Converts a point from latitude/longitude WGS-84 coordinates (in degrees)
@@ -93,8 +76,7 @@ namespace Microsoft.MapPoint
         /// to 23 (highest detail).</param>
         /// <param name="pixelX">Output parameter receiving the X coordinate in pixels.</param>
         /// <param name="pixelY">Output parameter receiving the Y coordinate in pixels.</param>
-        public static void LatLongToPixelXY(double latitude, double longitude, int levelOfDetail,
-            out int pixelX, out int pixelY)
+        public static void LatLongToPixelXY(double latitude, double longitude, int levelOfDetail, out int pixelX, out int pixelY)
         {
             latitude = Clip(latitude, MinLatitude, MaxLatitude);
             longitude = Clip(longitude, MinLongitude, MaxLongitude);
@@ -108,8 +90,6 @@ namespace Microsoft.MapPoint
             pixelY = (int) Clip(y * mapSize + 0.5, 0, mapSize - 1);
         }
 
-
-
         /// <summary>
         /// Converts pixel XY coordinates into tile XY coordinates.
         /// </summary>
@@ -122,8 +102,6 @@ namespace Microsoft.MapPoint
             tileX = pixelX / 256;
             tileY = pixelY / 256;
         }
-
-
 
         /// <summary>
         /// Converts tile XY coordinates into a QuadKey at a specified level of detail.
@@ -141,9 +119,8 @@ namespace Microsoft.MapPoint
                 char digit = '0';
                 int mask = 1 << (i - 1);
                 if ((tileX & mask) != 0)
-                {
                     digit++;
-                }
+
                 if ((tileY & mask) != 0)
                 {
                     digit++;

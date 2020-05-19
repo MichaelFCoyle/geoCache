@@ -22,9 +22,9 @@ namespace GeoCache.Caches.Disk
 		public int X { get; set; }
 		public int Y { get; set; }
 		public int Z { get; set; }
+
 		public static TileCacheFileInfo Get(string partialFileName)
 		{
-
 			var a = partialFileName.Split(new char[] { '\\', '/' }, StringSplitOptions.RemoveEmptyEntries);
 			try
 			{
@@ -40,9 +40,6 @@ namespace GeoCache.Caches.Disk
 			return null;
 		}
 
-		public string QuadKey
-		{
-			get { return Microsoft.MapPoint.VirtualEarthTileSystem.TileXYToQuadKey(X, Y, Z); }
-		}
+		public string QuadKey => Microsoft.MapPoint.VirtualEarthTileSystem.TileXYToQuadKey(X, Y, Z);
 	}
 }

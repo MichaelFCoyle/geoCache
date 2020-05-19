@@ -60,10 +60,12 @@ namespace GeoCache
         /// <returns></returns>
         public static PointF WorldToTilePos(double lon, double lat, int zoom)
         {
-            PointF p = new Point();
-            p.X = (float)((lon + 180.0) / 360.0 * (1 << zoom));
-            p.Y = (float)((1.0 - Math.Log(Math.Tan(lat * Math.PI / 180.0) +
-                1.0 / Math.Cos(lat * Math.PI / 180.0)) / Math.PI) / 2.0 * (1 << zoom));
+            PointF p = new PointF
+            {
+                X = (float)((lon + 180.0) / 360.0 * (1 << zoom)),
+                Y = (float)((1.0 - Math.Log(Math.Tan(lat * Math.PI / 180.0) +
+                1.0 / Math.Cos(lat * Math.PI / 180.0)) / Math.PI) / 2.0 * (1 << zoom))
+            };
 
             return p;
         }

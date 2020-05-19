@@ -16,6 +16,6 @@ namespace GeoCache.Core
 {
 	public interface ILoadTileLogger
 	{
-		void Log(GeoCache.Core.Web.IHttpRequest request, GeoCache.Core.ITile tile);
+		void Log(Web.IHttpRequest request, ITile tile);
 	}
 }

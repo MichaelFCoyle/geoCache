@@ -20,10 +20,7 @@ namespace GeoCache.Layers.Wms.ImageResponseValidators
 {
 	public class ImageResponseValidator : IResponseValidator
 	{
-		public ImageResponseValidator()
-		{
-			ValidateImageData = true;
-		}
+		public ImageResponseValidator() => ValidateImageData = true;
 
 		protected bool ValidateImageData { get; set; }
 
@@ -47,10 +44,7 @@ namespace GeoCache.Layers.Wms.ImageResponseValidators
 			}
 		}
 
-		public virtual bool ValidateImage(Image image)
-		{
-			return true;
-		}
+		public virtual bool ValidateImage(Image image) => true;
 
 		public bool ThrowIfNotImage { get; set; }
 
@@ -58,8 +52,7 @@ namespace GeoCache.Layers.Wms.ImageResponseValidators
 		{
 			set
 			{
-				bool temp;
-				if (Boolean.TryParse(value, out temp))
+				if (Boolean.TryParse(value, out bool temp))
 					ThrowIfNotImage = temp;
 			}
 		}

@@ -22,15 +22,14 @@ namespace GeoCache.Core
 	[TypeConverter(typeof(ResolutionsConverter))]
 	public class Resolutions : Collection<double>
 	{
-		public override string ToString()
-		{
-			return (string)new ResolutionsConverter().ConvertTo(this, typeof(string));
-		}
+		public override string ToString() => (string)new ResolutionsConverter().ConvertTo(this, typeof(string));
 
 		public static Resolutions Get(int levels, double maxResolution)
 		{
-			var r = new Resolutions();
-			r.Add(maxResolution);
+			var r = new Resolutions
+			{
+				maxResolution
+			};
 			for (int i = 0; i < levels - 1; i++)
 				r.Add(maxResolution / (2 << i));
 			return r;
@@ -38,10 +37,7 @@ namespace GeoCache.Core
 
 		class ResolutionsConverter : TypeConverter
 		{
-			public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
-			{
-				return (sourceType == typeof(string) || base.CanConvertFrom(context, sourceType));
-			}
+			public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType) => (sourceType == typeof(string) || base.CanConvertFrom(context, sourceType));
 
 			public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
 			{

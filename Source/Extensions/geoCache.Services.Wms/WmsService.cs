@@ -24,10 +24,7 @@ namespace GeoCache.Services.Wms
     {
         public WmsService() { }
 
-        public WmsService(ITileRenderer tileRenderer, ILayerContainer layerContainer)
-            : base(tileRenderer, layerContainer)
-        {
-        }
+        public WmsService(ITileRenderer tileRenderer, ILayerContainer layerContainer) : base(tileRenderer, layerContainer) { }
 
         #region python
         /*

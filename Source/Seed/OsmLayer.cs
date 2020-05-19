@@ -10,12 +10,14 @@ namespace Seed
     {
         public OsmLayer(int levels)
         {
-            this._levels = levels;
+            m_levels = levels;
         }
+
+        int m_levels;
 
         public OsmLayer(string url, string name, IBBox mapBounds)
         {
-            Url =new Uri( url);
+            Url = new Uri( url);
             Name = name;
             MapBBox = mapBounds;
         }

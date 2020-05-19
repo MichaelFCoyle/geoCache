@@ -34,10 +34,7 @@ namespace GeoCache.Caches.Disk
         self.readonly = readonly
 		*/
         #endregion
-        public Cache()
-            : this(TimeSpan.FromSeconds(30), TimeSpan.FromSeconds(300), false)
-        {
-        }
+        public Cache() : this(TimeSpan.FromSeconds(30), TimeSpan.FromSeconds(300), false) { }
 
         public Cache(TimeSpan timeout, TimeSpan staleInterval, bool readOnly)
         {
@@ -64,19 +61,16 @@ namespace GeoCache.Caches.Disk
 
 		 */
         #endregion
-        public void Lock(ITile tile)
-        {
-            Lock(tile, true);
-        }
+        public void Lock(ITile tile) => Lock(tile, true);
 
         public bool Lock(ITile tile, bool blocking)
         {
             var startTime = DateTime.Now;
             var result = AttemptLock(tile);
-            if (result)
-                return true;
-            if (!blocking)
-                return false;
+            
+            if (result) return true;
+            if (!blocking) return false;
+
             while (result != true)
             {
                 if (DateTime.Now - startTime > Timeout)
@@ -93,10 +87,7 @@ namespace GeoCache.Caches.Disk
         return self.getKey(tile) + ".lck"
 		*/
         #endregion
-        public string GetLockName(ITile tile)
-        {
-            return GetKey(tile) + ".lck";
-        }
+        public string GetLockName(ITile tile) => GetKey(tile) + ".lck";
 
         #region python
         /*

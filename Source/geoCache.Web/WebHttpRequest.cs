@@ -20,17 +20,14 @@ namespace GeoCache.Web
 {
 	public class WebHttpRequest : IHttpRequest
 	{
-		public WebHttpRequest(HttpRequest request)
-		{
-			_request = request;
-		}
+		public WebHttpRequest(HttpRequest request) => m_request = request;
 
-        readonly HttpRequest _request;
-        
-        public NameValueCollection Params { get { return _request.Params; } }
+		readonly HttpRequest m_request;
 
-        public string FilePath { get { return _request.FilePath; } }
-		
-        public Uri Url { get { return _request.Url; } }
+		public NameValueCollection Params => m_request.Params;
+
+		public string FilePath => m_request.FilePath;
+
+		public Uri Url => m_request.Url;
 	}
 }

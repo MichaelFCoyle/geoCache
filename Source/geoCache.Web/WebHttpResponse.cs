@@ -19,29 +19,22 @@ namespace GeoCache.Web
 {
 	public class WebHttpResponse : IHttpResponse
 	{
-		public WebHttpResponse(HttpResponse response)
-		{
-			_response = response;
-		}
+		public WebHttpResponse(HttpResponse response) => m_response = response;
 
-        readonly HttpResponse _response;
+		readonly HttpResponse m_response;
 
-		public string ContentType
-		{
-			get { return _response.ContentType; }
-			set { _response.ContentType = value; }
-		}
+		public string ContentType { get => m_response.ContentType; set => m_response.ContentType = value; }
 
-		public TextWriter Output { get { return _response.Output; } }
+		public TextWriter Output => m_response.Output;
 
-		public Stream OutputStream { get { return _response.OutputStream; } }
+		public Stream OutputStream => m_response.OutputStream;
 
-		public void Write(string s) { _response.Write(s); }
+		public void Write(string s) => m_response.Write(s);
 
-		public void Write(object obj) { _response.Write(obj); }
-		
-		public void Redirect(string url) { _response.Redirect(url); }
-		
-		public void Redirect(string url, bool endResponse) { _response.Redirect(url, endResponse); }
+		public void Write(object obj) => m_response.Write(obj);
+
+		public void Redirect(string url) => m_response.Redirect(url);
+
+		public void Redirect(string url, bool endResponse) => m_response.Redirect(url, endResponse);
 	}
 }

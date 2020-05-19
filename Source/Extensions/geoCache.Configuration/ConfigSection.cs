@@ -18,9 +18,10 @@ namespace GeoCache.Configuration
 {
 	public class ConfigSection
 	{
-		private readonly IDictionary<string, object> _values = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+		private readonly IDictionary<string, object> m_values = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
 
 		public string Name { get; set; }
-		public IDictionary<string, object> Properties { get { return _values; } }
+
+		public IDictionary<string, object> Properties => m_values;
 	}
 }

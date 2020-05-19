@@ -18,11 +18,11 @@ namespace GeoCache.Core
 	{
 		bool Contains(double x, double y);
 		int GetAspect();
-		double Height();
-		double MaxX { get; set; }
+        double Height { get; }
+        double MaxX { get; set; }
 		double MaxY { get; set; }
 		double MinX { get; set; }
 		double MinY { get; set; }
-		double Width();
-	}
+        double Width { get; }
+    }
 }

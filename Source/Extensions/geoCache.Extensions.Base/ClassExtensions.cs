@@ -29,10 +29,8 @@ namespace GeoCache.Extensions.Base
 
 		public static bool Contains<T>(this ICollection<T> self, IEnumerable<T> items)
 		{
-			if (self == null)
-				throw new ArgumentNullException("self");
-			if (items == null)
-				throw new ArgumentNullException("items");
+			if (self == null) throw new ArgumentNullException("self");
+			if (items == null) throw new ArgumentNullException("items");
 
 			foreach (var item in items)
 				if (self.Contains(item))
@@ -72,15 +70,15 @@ namespace GeoCache.Extensions.Base
 		{
 			var result = new Dictionary<string, string>();
 			var query = self.Query;
-			
-			if(!string.IsNullOrEmpty(query) && query.StartsWith("?"))
+
+			if (!string.IsNullOrEmpty(query) && query.StartsWith("?"))
 				query = query.TrimStart('?');
 
 			if (!string.IsNullOrEmpty(query))
 			{
 				foreach (var p in query.Split(new char[] { '&' }, StringSplitOptions.RemoveEmptyEntries))
 				{
-					
+
 					var param = p.Split(new char[] { '=' });
 					var key = param[0];
 					var value = param[1];
@@ -100,21 +98,19 @@ namespace GeoCache.Extensions.Base
 				self.Query = string.Empty;
 				return;
 			}
+
 			foreach (var p in queryParams)
-			{
-				paramList.Add(p.Key + "=" + (urlEncodeValues
-					? System.Web.HttpUtility.UrlEncode(p.Value)
-					: p.Value));
-			}
+				paramList.Add(p.Key + "=" + (urlEncodeValues ? System.Web.HttpUtility.UrlEncode(p.Value) : p.Value));
+
 			self.Query = string.Join("&", paramList.ToArray());
 		}
 
 #if DEBUG
-		
+
 #endif
 		public static void Remove<TKey, TValue>(this IDictionary<TKey, TValue> self, ICollection<TKey> itemsToRemove)
 		{
-			if(itemsToRemove == null)
+			if (itemsToRemove == null)
 				return;
 
 			foreach (var key in itemsToRemove)
