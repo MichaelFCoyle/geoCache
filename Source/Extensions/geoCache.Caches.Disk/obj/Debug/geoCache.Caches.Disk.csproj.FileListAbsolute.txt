@@ -1,5 +1,5 @@
 D:\Development\geoCache\Source\geoCache.Demo\bin\GeoCache.Caches.Disk.dll
 D:\Development\geoCache\Source\geoCache.Demo\bin\GeoCache.Caches.Disk.pdb
-D:\Development\geoCache\Source\Extensions\geoCache.Caches.Disk\obj\Debug\geoCache.Caches.Disk.csprojResolveAssemblyReference.cache
 D:\Development\geoCache\Source\Extensions\geoCache.Caches.Disk\obj\Debug\GeoCache.Caches.Disk.dll
 D:\Development\geoCache\Source\Extensions\geoCache.Caches.Disk\obj\Debug\GeoCache.Caches.Disk.pdb
+D:\Development\geoCache\Source\Extensions\geoCache.Caches.Disk\obj\Debug\geoCache.Caches.Disk.csprojResolveAssemblyReference.cache

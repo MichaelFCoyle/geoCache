@@ -25,21 +25,6 @@ namespace GeoCache.Layers.Wms
 
         public bool Transparent { get; set; }
 
-		#region python
-		/*
-        wms = WMSClient.WMS( self.url, {
-          "bbox": tile.bbox(),
-          "width": tile.size()[0],
-          "height": tile.size()[1],
-          "srs": self.srs,
-          "format": self.format(),
-          "layers": self.layers,
-        } )
-        tile.data, response = wms.fetch()
-        return tile.data 
-		 */
-		#endregion
-
 		public override byte[] RenderTile(ITile tile)
 		{
 			var wms = new WmsClient(Url, new Dictionary<string, string>

@@ -52,7 +52,8 @@ where
                 Size = new Size(256, 256),
                 ExtentType = ExtentType.Strict,
                 MapBBox = new BBox("-15691595.4222,5802989.4975,-12160095.8963,8880086.82382"),
-                Url = new Uri("http://tncache.azurewebsites.net/Tiles")
+                //Url = new Uri("http://tncache.azurewebsites.net/Tiles")
+                Url = new Uri("http://localhost:8881/Tiles")
             };
 
             osmLayer.Resolutions = osmLayer.BBox.GetResolutions(20, osmLayer.Size);
@@ -111,6 +112,7 @@ where
 
             for (int x = xStart; x < numTiles; x++)
             {
+#if PARALLEL
                 Parallel.For(
                     0,
                     numTiles,
@@ -119,6 +121,10 @@ where
                     {
                         DoWork(new Tile(osmLayer, x, y, zoom));
                     });
+#else
+                for (int y = 0; y < numTiles; y++)
+                    DoWork(new Tile(osmLayer, x, y, zoom));
+#endif
 
             }
         }
