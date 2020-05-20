@@ -1,16 +1,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30104.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "geoCache", "geoCache", "{D89CB21C-BF65-418D-841F-93FB7661773E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Extensions", "Extensions", "{CF1CA67F-50F8-4921-A71A-13FFAFC5BED7}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1B3AE427-7515-4765-A89F-D512F9A8A327}"
-	ProjectSection(SolutionItems) = preProject
-		geoCache.vsmdi = geoCache.vsmdi
-		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "geoCache.Demo", "geoCache.Demo\geoCache.Demo.csproj", "{5727611D-289B-4460-B7C1-903D331E07B4}"
 EndProject
@@ -113,6 +107,9 @@ Global
 		{B92B6273-3DC1-47EC-97BE-79D5869411C1} = {D89CB21C-BF65-418D-841F-93FB7661773E}
 		{99581B91-4606-4834-8632-84FA5942ABBD} = {CF1CA67F-50F8-4921-A71A-13FFAFC5BED7}
 		{49C3980C-E64D-448F-AF3B-C2DCE52B58B5} = {CF1CA67F-50F8-4921-A71A-13FFAFC5BED7}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {544FDF83-B1DC-4BC6-80D9-5BAEBCB0EED7}
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = geoCache.vsmdi
