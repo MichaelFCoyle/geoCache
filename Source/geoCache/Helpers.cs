@@ -23,14 +23,12 @@ namespace GeoCache
                 using (Graphics g = Graphics.FromImage((Image)bitmap))
                 {
                     g.Clear(Color.Transparent);
-
                     //g.FillRectangle(Brushes.Red, 0f, 0f, bitmap.Width, bitmap.Height);
                 }
 
                 using (MemoryStream mem = new MemoryStream())
                 {
                     bitmap.Save(mem, ImageFormat.Png);
-
                     return mem.ToArray();
                 }
             }

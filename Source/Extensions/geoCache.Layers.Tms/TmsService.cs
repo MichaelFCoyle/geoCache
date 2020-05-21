@@ -18,19 +18,18 @@ namespace GeoCache.Layers.Tms
         public void ProcessRequest(IHttpContext context)
         {
             string[] parts = context.Request.FilePath.Split('/');
-            if (parts.Length != 6 ||parts[1]!="Tiles")
+            if (parts.Length != 6 || parts[1] != "Tiles")
                 throw new InvalidDataException("Zero length data returned from layer.");
 
             TileRenderer.RenderTile(context.Response, GetMap(parts), false);
-      }
+        }
 
         ITile GetMap(string[] param)
         {
-            string l= param[2];
+            string l = param[2];
             Int32.TryParse(param[3], out int z);
             Int32.TryParse(param[4], out int x);
-            Int32.TryParse(param[5].Replace(".png",""), out int y);
-
+            Int32.TryParse(param[5].Replace(".png", ""), out int y);
 
             Cell cell = new Cell(x, y, z);
             //var bbox = new BBox(param["bbox"]);
